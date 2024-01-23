@@ -6,50 +6,38 @@ using DG.Tweening;
 
 public class GunController : MonoBehaviour
 {
-    public Transform gunModel;
+    public GunItem gunItem;
 
     public Transform bulletSpawnTransform;
-    public GameObject bulletPrefab; 
-
     public Transform targetObject;
 
     public LayerMask obstacleMask;
 
-    public int maxBulletCount = 30;
-    public int bulletFiredPerShot = 1;
-
-    public float randomSpread;
-
-    int currentBulletCount;
+    [Header("Effect Settings")]
 
     public ShellSpawner ShellSpawner;
     public GameObject decalPrefab;
 
-    public float reloadRate;
-    public float reloadWaitTime = 2f;
+    //public TMPro.TMP_Text bulletCountText;
+    [Header("Canvas Settings")]
+    public Transform bulletCountParent;
+    public GameObject bulletCountPrefab;
+    public LayerMask demagableMask;
 
-    public float recoilTimeStart;
-    public float recoilTimeEnd;
+    public float velocityMod;
 
-    public float recoilDistanceStart;
-    public float recoilDistanceEnd;
+    public DamageSource damageSource;
+
+    int currentBulletCount;
 
     float lastFireTime;
     float lastReloadTime;
     float timeBeforeReload;
 
-    //public TMPro.TMP_Text bulletCountText;
-    public Transform bulletCountParent;
-    public GameObject bulletCountPrefab;
-    public LayerMask demagableMask;
-
-
-    public DamageSource damageSource;
-
     private void Start()
     {
-        currentBulletCount = maxBulletCount;
-        for (int i = 1; i < maxBulletCount; i++)
+        currentBulletCount = gunItem.gunDataSO.maxBulletCount;
+        for (int i = 1; i < gunItem.gunDataSO.maxBulletCount; i++)
         {
             Instantiate(bulletCountPrefab, bulletCountParent);
         }
@@ -58,6 +46,13 @@ public class GunController : MonoBehaviour
     private void Update()
     {
         Reload();
+    }
+
+    public void SetActiveGun(GunItem gunItem)
+    {
+        this.gunItem.gameObject.SetActive(false);
+        this.gunItem = gunItem;
+        this.gunItem.gameObject.SetActive(true);
     }
 
     public void Fire(CharacterController characterController)
@@ -72,14 +67,14 @@ public class GunController : MonoBehaviour
         Vector3 direction = projection - cameraPos;
         Vector3 targetPos = direction.normalized * 100000f;
 
-        for (int i = 0; i < bulletFiredPerShot; i++)
+        for (int i = 0; i < gunItem.gunDataSO.bulletFiredPerShot; i++)
         {
             RaycastHit raycastHit;
 
             Quaternion randomRot = Quaternion.Euler(
-            Random.Range(-randomSpread, randomSpread),
-            Random.Range(-randomSpread, randomSpread),
-            Random.Range(-randomSpread, randomSpread));
+            Random.Range(-gunItem.gunDataSO.randomSpreadRate, gunItem.gunDataSO.randomSpreadRate),
+            Random.Range(-gunItem.gunDataSO.randomSpreadRate, gunItem.gunDataSO.randomSpreadRate),
+            Random.Range(-gunItem.gunDataSO.randomSpreadRate, gunItem.gunDataSO.randomSpreadRate));
 
             Vector3 coneVector = randomRot * Camera.main.transform.forward;
             var hit = Physics.Raycast(cameraPos, coneVector, out raycastHit, 100, demagableMask);
@@ -99,13 +94,15 @@ public class GunController : MonoBehaviour
 
                 if (damagableBase != null)
                 {
-                    damagableBase.TakeDamage(damageSource.damageValue, -normal);
+                    damagableBase.TakeDamage(damageSource.damageValue, -normal, 100);
                 }
             }
 
-            var bullet = Instantiate(bulletPrefab, bulletSpawnTransform.position + characterController.velocity * 0.01f, Quaternion.identity);
+            var bullet = Instantiate(gunItem.gunDataSO.bulletPrefab, bulletSpawnTransform.position + characterController.velocity * velocityMod, randomRot);
             bullet.transform.forward = coneVector;
             bullet.GetComponent<BulletController>().targetPos = targetPos;
+            bullet.GetComponent<BulletController>().spawnTransform = bulletSpawnTransform;
+
         }
 
         currentBulletCount--;
@@ -116,31 +113,31 @@ public class GunController : MonoBehaviour
         Destroy(bulletCountParent.GetChild(0).gameObject);
 
         Recoil();
-        ShellSpawner.SpawnShell(gunModel, characterController.velocity);
+        ShellSpawner.SpawnShell(gunItem.transform, characterController.velocity);
     }
 
     void Recoil()
     {
-        gunModel.DOLocalMoveX(recoilDistanceStart, recoilTimeStart).OnComplete(() =>
+        gunItem.transform.DOLocalMoveX(gunItem.gunDataSO.recoilDistanceStart, gunItem.gunDataSO.recoilTimeStart).OnComplete(() =>
         {
-            gunModel.DOLocalMoveX(recoilDistanceEnd, recoilTimeEnd);
+            gunItem.transform.DOLocalMoveX(gunItem.gunDataSO.recoilDistanceEnd, gunItem.gunDataSO.recoilTimeEnd);
         });
     }
 
     void Reload()
     {
-        if (timeBeforeReload < lastFireTime + reloadWaitTime)
+        if (timeBeforeReload < lastFireTime + gunItem.gunDataSO.reloadWaitTime)
         {
             timeBeforeReload += Time.deltaTime;
             return;
         }
 
-        if (currentBulletCount >= maxBulletCount)
+        if (currentBulletCount >= gunItem.gunDataSO.maxBulletCount)
         {
             return;
         }
 
-        if (lastReloadTime > reloadRate)
+        if (lastReloadTime > gunItem.gunDataSO.reloadRate)
         {
             currentBulletCount++;
             lastReloadTime = 0;

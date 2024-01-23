@@ -7,7 +7,6 @@ using UnityEngine.AI;
 public class AgentController : MonoBehaviour
 {
     public float updateRate = 1f;
-
     private NavMeshAgent agent;
     private Vector3 targetPosition;
 

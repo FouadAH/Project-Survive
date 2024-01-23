@@ -4,18 +4,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Cinemachine;
+using static UnityEngine.EventSystems.EventTrigger;
 
-public class Entity : MonoBehaviour
+public class Entity : EntityBase
 {
     public EntityData entityData;
 
     public PlayerRuntimeDataSO runtimeData;
 
     [Header("Debug Text")]
+    public bool drawGizmos;
+    public bool displayText;
+
     public TMPro.TMP_Text debugText;
 
-    [Header("Checkers")]
-    public Transform wallChecker;
+    //[Header("Checkers")]
+    //public Transform wallChecker;
 
     [Header("States")]
     public IdleStateData IdleStateData;
@@ -28,10 +32,22 @@ public class Entity : MonoBehaviour
     public PlayerDetectedState playerDetectedState;
     public PulledState pulledState;
 
-    private float health;
+    [Header("Others")]
+    public Transform orientation;
+    public MeleeAttackController meleeAttackController;
+    public RagdollController ragdoll;
+    public Canvas canvas;
+    protected float health;
+    protected Vector3 targetPosition;
+    protected InputProvider inputProvider;
+    protected AgentController agentController;
 
-    private EntitySpawner entitySpawner;
-    //private ProjectileController projectileController;
+    protected ContextMap contextMap;
+    protected SeekBehaviour seekBehaviour;
+    protected AvoidBehaviour avoidBehaviour;
+
+    protected EntitySpawner entitySpawner;
+    //protected ProjectileController projectileController;
 
     public FiniteStateMachine stateMachine;
     public CharacterMovement characterMovement { get; private set; }
@@ -42,6 +58,15 @@ public class Entity : MonoBehaviour
     {
         health = entityData.maxHealth;
         spawnPosition = transform.position;
+
+        contextMap = GetComponent<ContextMap>();
+        seekBehaviour = GetComponent<SeekBehaviour>();
+        seekBehaviour.maxDetectDistance = entityData.minAggroRange;
+
+        avoidBehaviour = GetComponent<AvoidBehaviour>();
+
+        inputProvider = GetComponent<InputProvider>();
+        agentController = GetComponent<AgentController>();
 
         characterMovement = GetComponent<CharacterMovement>();
         characterMovement.moveSpeed = entityData.moveSpeed;
@@ -58,54 +83,85 @@ public class Entity : MonoBehaviour
         stateMachine.Initialize(idleState);
     }
 
+    Vector3 lookPos;
+    Quaternion targetRot;
+
     public virtual void Update()
     {
-        debugText.text = stateMachine.currentState.ToString();
+        inputProvider.OnMove(CalculateMovementDirection());
+
+        if (displayText)
+        {
+            debugText.text = stateMachine.currentState.ToString();
+        }
 
         stateMachine.currentState.LogicUpdate();
+
+        lookPos = targetPosition - transform.position;
+
+        targetRot = Quaternion.LookRotation(lookPos);
+        orientation.rotation = Quaternion.Slerp(orientation.rotation, targetRot, Time.deltaTime * entityData.turnSpeed);
     }
 
     public virtual void FixedUpdate()
     {
         stateMachine.currentState.PhysicsUpdate();
     }
-
-    public void TakeDamage(float damageAmount, Vector2 damageDirection)
+    public void OnDeath(Vector3 damageDirection, float damageForce)
     {
-        health -= damageAmount;
+        characterMovement.characterController.enabled = false;
+        orientation.gameObject.SetActive(false);
+        ragdoll.gameObject.SetActive(true);
+        ragdoll.AddForce(damageDirection, damageForce, ForceMode.Impulse);
+        canvas.gameObject.SetActive(false);
+        this.enabled = false;
+    }
+    public Vector3 CalculateMovementDirection()
+    {
+        return contextMap.CalculateMovementDirection().normalized;
+    }
 
-        Vector2 directionToPlayer = (Vector2)transform.position - damageDirection;
-        //characterMovement.KnockBack(directionToPlayer);
+    public void SetMovementVector(Vector3 movementVector)
+    {
+        inputProvider.OnMove(movementVector.normalized);
+    }
 
-        if (health <= 0)
+    public void MoveToTarget(Vector3 targetPosition)
+    {
+        agentController.SetTarget(targetPosition);
+        var path = agentController.GetPath();
+        if (path.corners.Length > 1)
         {
-            if (entitySpawner != null)
-            {
-                entitySpawner.Despawn(this);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            this.targetPosition = path.corners[1];
+            seekBehaviour.hasTarget = true;
+            seekBehaviour.target = path.corners[1];
         }
+    }
+
+    public void SetHasTarget(bool hasTarget)
+    {
+        seekBehaviour.hasTarget = hasTarget;
     }
 
     public bool PlayerWithinRange_Min()
     {
-        bool detectedObstacle = Physics2D.Linecast(transform.position, runtimeData.playerPosition, entityData.obstacleMask);
-        bool playerInRange = Physics2D.OverlapCircle(transform.position, entityData.minAggroRange, entityData.playerMask);
-        return playerInRange && !detectedObstacle;
+        return DistanceChecked(runtimeData.playerPosition, entityData.minAggroRange);
     }
     public bool PlayerWithinRange_Max()
     {
-        bool detectedObstacle = Physics2D.Linecast(transform.position, runtimeData.playerPosition, entityData.obstacleMask);
-        bool playerInRange = Physics2D.OverlapCircle(transform.position, entityData.maxAggroRange, entityData.playerMask);
-        return playerInRange && !detectedObstacle;
+        return DistanceChecked(runtimeData.playerPosition, entityData.maxAggroRange);
+    }
+
+    public bool DistanceChecked(Vector3 target, float distance)
+    {
+        Vector3 offset =  target - transform.position;
+        float sqrLen = offset.sqrMagnitude;
+        return sqrLen < distance * distance;
     }
 
     public bool IsDetectingWall()
     {
-        return Physics2D.Linecast(transform.position, wallChecker.position, entityData.obstacleMask);
+        return false;
     }
 
     public void SetSpawner(EntitySpawner entitySpawner)
@@ -120,13 +176,13 @@ public class Entity : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        if (!drawGizmos)
+            return;
+
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, entityData.minAggroRange);
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, entityData.maxAggroRange);
-
-        Gizmos.color = Color.white;
-        Gizmos.DrawLine(transform.position, wallChecker.position);
     }
 }

@@ -15,10 +15,10 @@ MonoBehaviour:
   bulletPrefab: {fileID: 5897591621347321865, guid: 30adc3aba7224c54aabab670004e92d4, type: 3}
   maxBulletCount: 3
   bulletFiredPerShot: 5
-  randomSpreadRate: 5
+  randomSpreadRate: 11.11
   reloadRate: 0.35
   reloadWaitTime: 0.8
   recoilTimeStart: 0.1
   recoilTimeEnd: 0.3
-  recoilDistanceStart: -0.5
+  recoilDistanceStart: -1.41
   recoilDistanceEnd: 0.65

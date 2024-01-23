@@ -23,22 +23,21 @@ public class PlayerDetectedState : State
         {
             entity.stateMachine.ChangeState(entity.idleState);
         }
-        else
-        {
-            if (lastFireTime >= stateData.fireCooldown)
-            {
-                entity.FireProjectile();
-                lastFireTime = 0;
-            }
-        }
+        //else
+        //{
+        //    if (lastFireTime >= stateData.fireCooldown)
+        //    {
+        //        entity.FireProjectile();
+        //        lastFireTime = 0;
+        //    }
+        //}
     }
 
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+        entity.SetHasTarget(true);
 
-        //Vector2 directionToPlayer = entity.runtimeData.playerRuntimePosition - (Vector2)entity.transform.position;
-        //Quaternion lookDirection = Quaternion.LookRotation(Vector3.forward, directionToPlayer);
-        //entity.characterMovement.orientation.rotation = lookDirection;
+        entity.MoveToTarget(entity.runtimeData.playerPosition);
     }
 }

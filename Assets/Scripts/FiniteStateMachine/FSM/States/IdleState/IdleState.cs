@@ -14,27 +14,19 @@ public class IdleState : State
         this.stateData = stateData;
     }
 
-    public override void Enter()
-    {
-        base.Enter();
-
-        isIdleTimeOver = false;
-        idleTime = Random.Range(stateData.idleTimeMin, stateData.idleTimeMax);
-
-        //entity.characterMovement.SetMovementDirection(Vector2.zero);
-    }
-
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-        if (Time.time >= startTime + idleTime)
-        {
-            isIdleTimeOver = true;
-            entity.stateMachine.ChangeState(entity.patrolState);
-        }
-        else if (entity.PlayerWithinRange_Min())
+        if (entity.PlayerWithinRange_Min())
         {
             entity.stateMachine.ChangeState(entity.playerDetectedState);
         }
+    }
+
+    public override void PhysicsUpdate()
+    {
+        base.PhysicsUpdate();
+        entity.SetHasTarget(false);
+
     }
 }

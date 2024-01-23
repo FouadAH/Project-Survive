@@ -131,6 +131,9 @@ GameObject:
   - component: {fileID: 5423239581667997841}
   - component: {fileID: 217149890113942431}
   - component: {fileID: 8766306469545096044}
+  - component: {fileID: 960538228328519316}
+  - component: {fileID: 2113262773733269208}
+  - component: {fileID: 8697329889246045696}
   m_Layer: 10
   m_Name: pfEnemy
   m_TagString: Untagged
@@ -152,7 +155,7 @@ Transform:
   m_Children:
   - {fileID: 6672820433382720853}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &6049161510490144332
 CharacterController:
@@ -199,6 +202,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   turnSpeed: 10
+  minDistance: 10
+  maxDistance: 25
   orientation: {fileID: 6672820433382720853}
   playerRuntimeDataSO: {fileID: 11400000, guid: 4c8a84ed6eb317142a898ac9417bf5c1, type: 2}
 --- !u!114 &8021661331946080848
@@ -251,8 +256,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56153c9b424e48845a441c5cfb6b533a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 200
-  forceMod: 10
+  health: 100
+  forceMod: 25
+  healthSlider: {fileID: 0}
 --- !u!195 &217149890113942431
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -288,6 +294,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   updateRate: 5
+--- !u!114 &960538228328519316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7736473191686139857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ec56c2797c991849a23adc7772b2a04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resolution: 8
+--- !u!114 &2113262773733269208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7736473191686139857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bed7d937efe7a324dae3f38b25cb8474, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDistance: 500
+  targetPrefab: {fileID: 0}
+--- !u!114 &8697329889246045696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7736473191686139857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0af3d1f92ae4fee46b6c7306461b0540, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minDistance: 15
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  obstaclePrefab: {fileID: 0}
 --- !u!1 &8233212595871964935
 GameObject:
   m_ObjectHideFlags: 0

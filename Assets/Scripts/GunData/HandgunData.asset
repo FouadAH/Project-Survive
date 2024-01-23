@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HandgunData
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 5897591621347321865, guid: 30adc3aba7224c54aabab670004e92d4, type: 3}
-  maxBulletCount: 30
+  maxBulletCount: 10
   bulletFiredPerShot: 1
   randomSpreadRate: 0
   reloadRate: 0.35

@@ -10,16 +10,26 @@ public class LaunchController : MonoBehaviour
     public LayerMask launchableMask;
 
     public float launchSpeed = 10f;
+    public float launchDistance = 4f;
+
+    public float launchDuration = 2f;
+
+    private Vector3 launchDirection;
+    private float currentLaunchTime;
 
     public float suckAccelaration = 0.1f;
     public float maxDetectionRange = 100f;
 
+    private bool isLaunching;
     Coroutine suckRoutine;
 
     public void OnLaunch(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Started)
         {
+            if (isLaunching)
+                return;
+
             if (currentLaunchable != null)
             {
                 Launch();
@@ -34,10 +44,42 @@ public class LaunchController : MonoBehaviour
     void Launch()
     {
         StopCoroutine(suckRoutine);
-        currentLaunchable.AddForce(Camera.main.transform.forward * launchSpeed, ForceMode.Impulse);
-        currentLaunchable.useGravity = true;
+        //currentLaunchable.isKinematic = true;
 
+        launchDirection = Camera.main.transform.forward;
+
+        var launchable = currentLaunchable.GetComponent<Launchable>();
+        if (launchable != null)
+        {
+            launchable.checkDamageTrigger = true;
+            StartCoroutine(LaunchRoutine());
+        }
+        else
+        {
+            currentLaunchable.AddForce(launchDirection * launchSpeed, ForceMode.Impulse);
+            currentLaunchable.useGravity = true;
+            currentLaunchable = null;
+        }
+    }
+
+    IEnumerator LaunchRoutine()
+    {
+        isLaunching = true;
+        currentLaunchable.isKinematic = true;
+        currentLaunchTime = launchDuration;
+        while (currentLaunchTime > 0)
+        {
+            currentLaunchTime -= Time.deltaTime;
+            currentLaunchable.transform.position = Vector3.Lerp(currentLaunchable.transform.position, currentLaunchable.transform.position + launchDirection * launchDistance, 0.1f);
+            yield return new WaitForFixedUpdate();
+        }
+
+        currentLaunchable.isKinematic = false;
+        currentLaunchable.useGravity = true;
+        currentLaunchable.GetComponent<Launchable>().checkDamageTrigger = false;
         currentLaunchable = null;
+
+        isLaunching = false;
     }
 
     void Suck()

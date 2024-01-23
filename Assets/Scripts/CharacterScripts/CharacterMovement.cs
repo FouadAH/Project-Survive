@@ -40,7 +40,7 @@ public class CharacterMovement : MonoBehaviour
     private Vector3 moveDirection;
     private Vector3 moveInput;
 
-    private CharacterController characterController;
+    public CharacterController characterController { get; private set; }
 
     float currentVelocityXRef;
     float currentVelocityX;
