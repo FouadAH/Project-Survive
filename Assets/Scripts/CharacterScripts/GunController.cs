@@ -3,31 +3,33 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Animations.Rigging;
 
 public class GunController : MonoBehaviour
 {
     public GunItem gunItem;
 
-    public Transform bulletSpawnTransform;
     public Transform targetObject;
-
     public LayerMask obstacleMask;
+    public Collider coneCollider;
 
     [Header("Effect Settings")]
-
-    public ShellSpawner ShellSpawner;
     public GameObject decalPrefab;
 
-    //public TMPro.TMP_Text bulletCountText;
+    [Header("IK Settings")]
+    public RigBuilder rigBuilder;
+    public TwoBoneIKConstraint leftHandIK;
+    public TwoBoneIKConstraint rightHandIK;
+
     [Header("Canvas Settings")]
-    public Transform bulletCountParent;
+    public CrosshairController crosshairController;
     public GameObject bulletCountPrefab;
     public LayerMask demagableMask;
 
     public float velocityMod;
-
+    public bool isHeld;
     public DamageSource damageSource;
-
+    CharacterController characterController;
     int currentBulletCount;
 
     float lastFireTime;
@@ -36,27 +38,57 @@ public class GunController : MonoBehaviour
 
     private void Start()
     {
-        currentBulletCount = gunItem.gunDataSO.maxBulletCount;
-        for (int i = 1; i < gunItem.gunDataSO.maxBulletCount; i++)
-        {
-            Instantiate(bulletCountPrefab, bulletCountParent);
-        }
+        InitCanvas();
     }
 
     private void Update()
     {
         Reload();
+        if(isHeld && gunItem.gunDataSO.canAutoFire)
+        {
+            Fire(characterController);
+        }
     }
 
-    public void SetActiveGun(GunItem gunItem)
+    public void SwitchActiveGun(GunItem gunItem)
     {
         this.gunItem.gameObject.SetActive(false);
         this.gunItem = gunItem;
         this.gunItem.gameObject.SetActive(true);
+        InitCanvas();
+
+        leftHandIK.data.target = gunItem.leftHandTarget;
+        rightHandIK.data.target = gunItem.rightHandTarget;
+        rigBuilder.Build();
+    }
+
+    public void InitCanvas()
+    {
+        foreach (Transform child in gunItem.bulletCountParent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        currentBulletCount = gunItem.gunDataSO.maxBulletCount;
+        for (int i = 1; i < gunItem.gunDataSO.maxBulletCount; i++)
+        {
+            Instantiate(bulletCountPrefab, gunItem.bulletCountParent);
+        }
     }
 
     public void Fire(CharacterController characterController)
     {
+        this.characterController = characterController;
+
+        if (gunItem.gunDataSO.canAutoFire)
+        {
+            if (Time.time < lastFireTime + gunItem.gunDataSO.fireRate)
+            {
+                return;
+            }
+        }
+
+
         if (currentBulletCount <= 0)
         {
             return;
@@ -66,6 +98,11 @@ public class GunController : MonoBehaviour
         Vector3 projection = (Camera.main.transform.forward) * 100000f;
         Vector3 direction = projection - cameraPos;
         Vector3 targetPos = direction.normalized * 100000f;
+
+        if (gunItem.gunDataSO.isConeCast)
+        {
+            StartCoroutine(ConeCast());
+        }
 
         for (int i = 0; i < gunItem.gunDataSO.bulletFiredPerShot; i++)
         {
@@ -77,31 +114,40 @@ public class GunController : MonoBehaviour
             Random.Range(-gunItem.gunDataSO.randomSpreadRate, gunItem.gunDataSO.randomSpreadRate));
 
             Vector3 coneVector = randomRot * Camera.main.transform.forward;
-            var hit = Physics.Raycast(cameraPos, coneVector, out raycastHit, 100, demagableMask);
 
-            if (hit)
+            if (!gunItem.gunDataSO.isConeCast)
             {
-                Vector3 decalSpawnPos = raycastHit.point;
-                Vector3 normal = raycastHit.normal;
-                Quaternion quaternion = Quaternion.LookRotation(-normal, Vector3.up);
-
-                var decal = Instantiate(decalPrefab, decalSpawnPos, quaternion);
-                //float randomRotation = Random.Range(0, 180f);
-                //decal.transform.Rotate(decal.transform.forward, randomRotation);
-                decal.transform.parent = raycastHit.transform;
-
-                DamagableBase damagableBase = raycastHit.collider.GetComponent<DamagableBase>();
-
-                if (damagableBase != null)
+                var hit = Physics.Raycast(cameraPos, coneVector, out raycastHit, 100, demagableMask);
+                if (hit)
                 {
-                    damagableBase.TakeDamage(damageSource.damageValue, -normal, 100);
+                    Vector3 decalSpawnPos = raycastHit.point;
+                    Vector3 normal = raycastHit.normal;
+                    Quaternion quaternion = Quaternion.LookRotation(-normal, Vector3.up);
+
+                    var decal = Instantiate(decalPrefab, decalSpawnPos, quaternion);
+                    //float randomRotation = Random.Range(0, 180f);
+                    //decal.transform.Rotate(decal.transform.forward, randomRotation);
+                    decal.transform.parent = raycastHit.transform;
+
+                    DamagableBase damagableBase = raycastHit.collider.GetComponent<DamagableBase>();
+
+                    if (damagableBase != null)
+                    {
+                        damagableBase.TakeDamage(damageSource.damageValue, -normal, 100);
+                    }
                 }
             }
 
-            var bullet = Instantiate(gunItem.gunDataSO.bulletPrefab, bulletSpawnTransform.position + characterController.velocity * velocityMod, randomRot);
+            var bullet = Instantiate(gunItem.gunDataSO.bulletPrefab, gunItem.bulletSpawnTransform.position + characterController.velocity * velocityMod, randomRot).GetComponent<BulletController>();
+
+            if (gunItem.gunDataSO.isConeCast)
+            {
+                bullet.moveInDirection = true;
+            }
+
             bullet.transform.forward = coneVector;
-            bullet.GetComponent<BulletController>().targetPos = targetPos;
-            bullet.GetComponent<BulletController>().spawnTransform = bulletSpawnTransform;
+            bullet.targetPos = targetPos;
+            bullet.spawnTransform = gunItem.bulletSpawnTransform;
 
         }
 
@@ -109,18 +155,42 @@ public class GunController : MonoBehaviour
         lastFireTime = Time.time;
         timeBeforeReload = Time.time;
         lastReloadTime = 0;
-
-        Destroy(bulletCountParent.GetChild(0).gameObject);
+        crosshairController.AnimateCrosshair();
+        if (gunItem.bulletCountParent.childCount > 0)
+        {
+            Destroy(gunItem.bulletCountParent.GetChild(0).gameObject);
+        }
 
         Recoil();
-        ShellSpawner.SpawnShell(gunItem.transform, characterController.velocity);
+
+        //gunItem.shellSpawner.Spawn(gunItem.transform, characterController.velocity);
     }
 
+    IEnumerator ConeCast()
+    {
+        yield return new WaitForEndOfFrame();
+
+        coneCollider.gameObject.SetActive(true);
+
+        yield return new WaitForEndOfFrame();
+
+        coneCollider.gameObject.SetActive(false);
+    }
     void Recoil()
     {
-        gunItem.transform.DOLocalMoveX(gunItem.gunDataSO.recoilDistanceStart, gunItem.gunDataSO.recoilTimeStart).OnComplete(() =>
+        gunItem.transform.DOLocalMoveX(gunItem.gunDataSO.recoilDistanceStartX, gunItem.gunDataSO.recoilTimeStart).OnComplete(() =>
         {
-            gunItem.transform.DOLocalMoveX(gunItem.gunDataSO.recoilDistanceEnd, gunItem.gunDataSO.recoilTimeEnd);
+            gunItem.transform.DOLocalMoveX(gunItem.gunDataSO.recoilDistanceEndX, gunItem.gunDataSO.recoilTimeEnd);
+        });
+
+        gunItem.transform.DOLocalMoveZ(gunItem.gunDataSO.recoilDistanceStartY, gunItem.gunDataSO.recoilTimeStart).OnComplete(() =>
+        {
+            gunItem.transform.DOLocalMoveZ(gunItem.gunDataSO.recoilDistanceEndY, gunItem.gunDataSO.recoilTimeEnd);
+        });
+
+        gunItem.transform.DOLocalRotate(gunItem.gunDataSO.recoilAngleStart, gunItem.gunDataSO.recoilTimeStart).OnComplete(() =>
+        {
+            gunItem.transform.DOLocalRotate(gunItem.gunDataSO.recoilAngleEnd, gunItem.gunDataSO.recoilTimeEnd);
         });
     }
 
@@ -142,7 +212,7 @@ public class GunController : MonoBehaviour
             currentBulletCount++;
             lastReloadTime = 0;
 
-            Instantiate(bulletCountPrefab, bulletCountParent);
+            Instantiate(bulletCountPrefab, gunItem.bulletCountParent);
         }
         else
         {

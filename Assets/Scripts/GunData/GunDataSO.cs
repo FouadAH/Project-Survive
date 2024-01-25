@@ -23,6 +23,24 @@ public class GunDataSO : ScriptableObject
     public float recoilTimeStart;
     public float recoilTimeEnd;
 
-    public float recoilDistanceStart;
-    public float recoilDistanceEnd;
+    [Space(1)]
+
+    public float recoilDistanceStartX;
+    public float recoilDistanceEndX;
+
+    [Space(1)]
+
+    public float recoilDistanceStartY;
+    public float recoilDistanceEndY;
+
+    [Space(1)]
+
+    public Vector3 recoilAngleStart = Vector3.zero;
+    public Vector3 recoilAngleEnd = Vector3.zero;
+
+    [Header("Fire Settings")]
+    public bool canAutoFire;
+    public bool isConeCast;
+    public float fireRate;
+
 }

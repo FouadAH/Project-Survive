@@ -47,7 +47,10 @@ public class Entity : EntityBase
     protected AvoidBehaviour avoidBehaviour;
 
     protected EntitySpawner entitySpawner;
+    protected DamagableBase damagableBase;
     //protected ProjectileController projectileController;
+
+    protected bool isDead;
 
     public FiniteStateMachine stateMachine;
     public CharacterMovement characterMovement { get; private set; }
@@ -70,6 +73,8 @@ public class Entity : EntityBase
 
         characterMovement = GetComponent<CharacterMovement>();
         characterMovement.moveSpeed = entityData.moveSpeed;
+
+        damagableBase = GetComponent<DamagableBase>();
         //characterMovement.velocitySmoothTime = entityData.velocitySmoothing;
 
         //projectileController = GetComponent<ProjectileController>();
@@ -107,14 +112,24 @@ public class Entity : EntityBase
     {
         stateMachine.currentState.PhysicsUpdate();
     }
-    public void OnDeath(Vector3 damageDirection, float damageForce)
+    public virtual void OnDeath(Vector3 damageDirection, float damageForce)
     {
+        if (isDead)
+            return;
+
+        isDead = true;
+
         characterMovement.characterController.enabled = false;
+
         orientation.gameObject.SetActive(false);
+
+        ragdoll.transform.rotation = orientation.rotation;
         ragdoll.gameObject.SetActive(true);
         ragdoll.AddForce(damageDirection, damageForce, ForceMode.Impulse);
+
         canvas.gameObject.SetActive(false);
-        this.enabled = false;
+        damagableBase.enabled = false;
+        enabled = false;
     }
     public Vector3 CalculateMovementDirection()
     {

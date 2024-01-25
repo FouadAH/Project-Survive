@@ -278,14 +278,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7062909593230278642}
-  - component: {fileID: 1238933548882536609}
+  - component: {fileID: 7426914084806278853}
   m_Layer: 0
   m_Name: ShellSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7062909593230278642
 Transform:
   m_ObjectHideFlags: 0
@@ -301,7 +301,7 @@ Transform:
   m_Father: {fileID: 5579662633417006494}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1238933548882536609
+--- !u!114 &7426914084806278853
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -310,14 +310,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 5223640017537721781}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62b890dc4d1d2864087018c85aa89b02, type: 3}
+  m_Script: {fileID: 11500000, guid: a3e5e2f56d5c6a24f942e50404ebdcac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shellPrefab: {fileID: 5897591621347321865, guid: 1b8a36a4070489f4dac515d311846d31, type: 3}
-  force: 10
-  forceMinMax_X: {x: -0.3, y: -1}
+  spawnPrefab: {fileID: 5897591621347321865, guid: 1b8a36a4070489f4dac515d311846d31, type: 3}
+  spawnAmount: 1
+  force: 3
+  forceMinMax_X: {x: 0.3, y: 1}
   forceMinMax_Y: {x: 0.5, y: 1}
-  forceMinMax_Z: {x: 0.5, y: 1}
+  forceMinMax_Z: {x: -0.5, y: -1}
 --- !u!1 &6538329443634609762
 GameObject:
   m_ObjectHideFlags: 0
@@ -585,3 +586,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 430ba1a0ec45f094e8927c9d18dc0fc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gunDataSO: {fileID: 0}
+  bulletSpawnTransform: {fileID: 8694281188549267672}
+  shellSpawner: {fileID: 7426914084806278853}
+  rightHandTarget: {fileID: 3452250942857638583}
+  leftHandTarget: {fileID: 6310814864464711389}
+  bulletCountParent: {fileID: 4611781654979164218}

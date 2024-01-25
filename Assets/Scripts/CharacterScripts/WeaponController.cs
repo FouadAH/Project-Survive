@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 
 public class WeaponController : MonoBehaviour
 {
@@ -47,7 +48,7 @@ public class WeaponController : MonoBehaviour
     {
         targetPosition = (isAiming) ? weaponAimTransform.position : weaponNormalTransform.position;
 
-        gun.transform.position = Vector3.Lerp(gun.transform.position, targetPosition, 0.1f);
+        gun.transform.position = Vector3.Lerp(gun.transform.position, targetPosition, 0.5f);
 
         currentRotation = Vector3.Lerp(currentRotation, targetRotation, 0.1f);
         gun.transform.rotation.eulerAngles.Set(currentRotation.x, currentRotation.y, currentRotation.z);
@@ -85,6 +86,16 @@ public class WeaponController : MonoBehaviour
         {
             gun.Fire(characterController);
             impulseSource.GenerateImpulse();
+
+            if(gun.gunItem.gunDataSO.canAutoFire == true)
+            {
+                gun.isHeld = true;
+            }
         }
+        else if (context.phase == InputActionPhase.Canceled)
+        {
+            gun.isHeld = false;
+        }
+        
     }
 }

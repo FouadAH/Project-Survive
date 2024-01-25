@@ -13,12 +13,19 @@ MonoBehaviour:
   m_Name: ShotgunData
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 5897591621347321865, guid: 30adc3aba7224c54aabab670004e92d4, type: 3}
-  maxBulletCount: 3
-  bulletFiredPerShot: 5
+  maxBulletCount: 8
+  bulletFiredPerShot: 8
   randomSpreadRate: 11.11
-  reloadRate: 0.35
-  reloadWaitTime: 0.8
+  reloadRate: 0.25
+  reloadWaitTime: 0.3
   recoilTimeStart: 0.1
   recoilTimeEnd: 0.3
-  recoilDistanceStart: -1.41
-  recoilDistanceEnd: 0.65
+  recoilDistanceStartX: -0.3
+  recoilDistanceEndX: 0.65
+  recoilDistanceStartY: 0.4
+  recoilDistanceEndY: 0
+  recoilAngleStart: {x: 0, y: -6.4, z: 0}
+  recoilAngleEnd: {x: 0, y: 0, z: 0}
+  canAutoFire: 0
+  isConeCast: 1
+  fireRate: 0

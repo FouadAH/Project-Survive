@@ -16,9 +16,16 @@ MonoBehaviour:
   maxBulletCount: 10
   bulletFiredPerShot: 1
   randomSpreadRate: 0
-  reloadRate: 0.35
+  reloadRate: 0.2
   reloadWaitTime: 0.8
-  recoilTimeStart: 0.05
-  recoilTimeEnd: 0.1
-  recoilDistanceStart: -0.5
-  recoilDistanceEnd: 0.65
+  recoilTimeStart: 0.1
+  recoilTimeEnd: 0.3
+  recoilDistanceStartX: -0.3
+  recoilDistanceEndX: 0.65
+  recoilDistanceStartY: 0.1
+  recoilDistanceEndY: 0
+  recoilAngleStart: {x: 0, y: -24.7, z: 0}
+  recoilAngleEnd: {x: 0, y: 0, z: 0}
+  canAutoFire: 0
+  isConeCast: 0
+  fireRate: 0

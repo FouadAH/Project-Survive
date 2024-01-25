@@ -5,26 +5,19 @@ using UnityEngine;
 [RequireComponent(typeof(InputProvider))]
 public class EnemyController : Entity
 {
+    public PhysicsParticleSpawner particleSpawner;
     public override void Update()
     {
         base.Update();
     }
 
-    [ContextMenu("Jump")]
-    public void Jump()
+    public override void OnDeath(Vector3 damageDirection, float damageForce)
     {
-        inputProvider.OnJump();
-    }
+        base.OnDeath(damageDirection, damageForce);
 
-    [ContextMenu("Start Hover")]
-    public void StartHover()
-    {
-        inputProvider.OnStartHover();
-    }
+        if (isDead)
+            return;
 
-    [ContextMenu("Stop Hover")]
-    public void StopHover()
-    {
-        inputProvider.OnStopHover();
+        particleSpawner.Spawn();
     }
 }

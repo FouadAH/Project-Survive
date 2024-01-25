@@ -7,7 +7,8 @@ public class BulletController : MonoBehaviour
 {
     public float speed;
     public Vector3 targetPos;
-
+    public bool moveInDirection;
+    public ParticleSystem bulletDestroyEffect;
     public LayerMask obstacleMask;
 
     private Rigidbody rb;
@@ -25,40 +26,40 @@ public class BulletController : MonoBehaviour
     private void Start()
     {
         initialSpawn = transform.position;
-        //meshRenderer.enabled = false;
         shouldMove = false;
         StartCoroutine(MovementLock());
     }
 
     void Update()
     {
+        if (moveInDirection)
+        {
+            rb.MovePosition(transform.position + transform.forward * speed * Time.deltaTime);
+            return;
+        }
+
         if (shouldMove)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
-        }
-        else
-        {
-            //transform.position = spawnTransform.position;
         }
     }
 
     IEnumerator MovementLock()
     {
-        //transform.position = spawnTransform.position;
-
         yield return new WaitForEndOfFrame();
         meshRenderer.enabled = true;
-
-        //transform.position = spawnTransform.position;
         velocityDirection = initialSpawn - spawnTransform.position;
         transform.position += velocityDirection;
-       shouldMove = true;
+        shouldMove = true;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (IsInLayerMask(obstacleMask, other.gameObject.layer))
         {
+            var bullet = Instantiate(bulletDestroyEffect, transform.position, Quaternion.identity);
+            bullet.Play();
+
             Destroy(gameObject);
         }
     }
