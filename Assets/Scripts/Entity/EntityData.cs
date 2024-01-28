@@ -13,6 +13,9 @@ public class EntityData : ScriptableObject
     public float maxHealth;
     public float minAggroRange;
     public float maxAggroRange;
+    public float attackRangeMin;
+    public float attackRangeMax;
+
 
     public LayerMask playerMask;
     public LayerMask obstacleMask;

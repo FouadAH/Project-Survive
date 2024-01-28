@@ -15,6 +15,8 @@ public class GunController : MonoBehaviour
 
     [Header("Effect Settings")]
     public GameObject decalPrefab;
+    public AudioComponent fireSFX;
+    public AudioComponent reloadSFX;
 
     [Header("IK Settings")]
     public RigBuilder rigBuilder;
@@ -162,7 +164,7 @@ public class GunController : MonoBehaviour
         }
 
         Recoil();
-
+        Instantiate(fireSFX).PlaySFX();
         //gunItem.shellSpawner.Spawn(gunItem.transform, characterController.velocity);
     }
 
@@ -213,6 +215,8 @@ public class GunController : MonoBehaviour
             lastReloadTime = 0;
 
             Instantiate(bulletCountPrefab, gunItem.bulletCountParent);
+
+            Instantiate(reloadSFX).PlaySFX();
         }
         else
         {

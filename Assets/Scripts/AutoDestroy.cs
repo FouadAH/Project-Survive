@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AutoDestroy : MonoBehaviour
 {
+    public float destroyTime = 1f;
     private void Start()
     {
         StartCoroutine(AutoDestroyRoutine());
@@ -11,7 +12,7 @@ public class AutoDestroy : MonoBehaviour
 
     IEnumerator AutoDestroyRoutine()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(destroyTime);
         Destroy(gameObject);
     }
 }

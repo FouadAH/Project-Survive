@@ -18,8 +18,8 @@ public class Entity : EntityBase
 
     public TMPro.TMP_Text debugText;
 
-    //[Header("Checkers")]
-    //public Transform wallChecker;
+    [Header("Checkers")]
+    public Transform playerChecker;
 
     [Header("States")]
     public IdleStateData IdleStateData;
@@ -30,13 +30,21 @@ public class Entity : EntityBase
     public IdleState idleState;
     public PatrolState patrolState;
     public PlayerDetectedState playerDetectedState;
+    public AttackState attackState;
     public PulledState pulledState;
 
     [Header("Others")]
     public Transform orientation;
     public MeleeAttackController meleeAttackController;
+    public EntityProjectileController projectileController;
+
+    [Header("Ragdoll Settings")]
     public RagdollController ragdoll;
+
+    [Header("Canvas Settings")]
     public Canvas canvas;
+
+    public bool lookAtPlayer;
     protected float health;
     protected Vector3 targetPosition;
     protected InputProvider inputProvider;
@@ -47,13 +55,13 @@ public class Entity : EntityBase
     protected AvoidBehaviour avoidBehaviour;
 
     protected EntitySpawner entitySpawner;
-    protected DamagableBase damagableBase;
-    //protected ProjectileController projectileController;
+    protected DamageController damagableBase;
 
     protected bool isDead;
 
     public FiniteStateMachine stateMachine;
     public CharacterMovement characterMovement { get; private set; }
+    public PhysicsParticleSpawner particleSpawner;
 
     public Vector2 spawnPosition { get; private set; }
 
@@ -74,15 +82,14 @@ public class Entity : EntityBase
         characterMovement = GetComponent<CharacterMovement>();
         characterMovement.moveSpeed = entityData.moveSpeed;
 
-        damagableBase = GetComponent<DamagableBase>();
-        //characterMovement.velocitySmoothTime = entityData.velocitySmoothing;
-
-        //projectileController = GetComponent<ProjectileController>();
+        damagableBase = GetComponent<DamageController>();
+        damagableBase.Init(entityData.maxHealth);
 
         stateMachine = new FiniteStateMachine();
         idleState = new IdleState(this, stateMachine, IdleStateData);
         patrolState = new PatrolState(this, stateMachine, PatrolStateData);
         playerDetectedState = new PlayerDetectedState(this, stateMachine, PlayerDetectedStateData);
+        attackState = new AttackState(this, stateMachine, PlayerDetectedStateData);
         pulledState = new PulledState(this, stateMachine, PulledStateData);
 
         stateMachine.Initialize(idleState);
@@ -102,10 +109,21 @@ public class Entity : EntityBase
 
         stateMachine.currentState.LogicUpdate();
 
-        lookPos = targetPosition - transform.position;
 
-        targetRot = Quaternion.LookRotation(lookPos);
-        orientation.rotation = Quaternion.Slerp(orientation.rotation, targetRot, Time.deltaTime * entityData.turnSpeed);
+        if (lookAtPlayer)
+        {
+            lookPos = runtimeData.playerPosition - transform.position;
+
+            targetRot = Quaternion.LookRotation(lookPos);
+            orientation.rotation = Quaternion.Slerp(orientation.rotation, targetRot, Time.deltaTime * entityData.turnSpeed);
+        }
+        else
+        {
+            lookPos = targetPosition - transform.position;
+
+            targetRot = Quaternion.LookRotation(lookPos);
+            orientation.rotation = Quaternion.Slerp(orientation.rotation, targetRot, Time.deltaTime * entityData.turnSpeed);
+        }
     }
 
     public virtual void FixedUpdate()
@@ -130,6 +148,9 @@ public class Entity : EntityBase
         canvas.gameObject.SetActive(false);
         damagableBase.enabled = false;
         enabled = false;
+
+        EntityManager.Instance.RemoveEntity(this);
+        particleSpawner.Spawn();
     }
     public Vector3 CalculateMovementDirection()
     {
@@ -160,16 +181,28 @@ public class Entity : EntityBase
 
     public bool PlayerWithinRange_Min()
     {
-        return DistanceChecked(runtimeData.playerPosition, entityData.minAggroRange);
+        return DistanceChecked(transform.position, runtimeData.playerPosition, entityData.minAggroRange);
     }
     public bool PlayerWithinRange_Max()
     {
-        return DistanceChecked(runtimeData.playerPosition, entityData.maxAggroRange);
+        return DistanceChecked(transform.position, runtimeData.playerPosition, entityData.maxAggroRange);
+    }
+    public bool PlayerWithinMeleeAttackRange()
+    {
+        return DistanceChecked(meleeAttackController.transform.position, runtimeData.playerPosition, meleeAttackController.radius);
     }
 
-    public bool DistanceChecked(Vector3 target, float distance)
+    public bool PlayerWithinRangedAttackRange_Min()
     {
-        Vector3 offset =  target - transform.position;
+        return DistanceChecked(projectileController.transform.position, runtimeData.playerPosition, entityData.attackRangeMin);
+    }
+    public bool PlayerWithinRangedAttackRange_Max()
+    {
+        return DistanceChecked(projectileController.transform.position, runtimeData.playerPosition, entityData.attackRangeMax);
+    }
+    public bool DistanceChecked(Vector3 position, Vector3 target, float distance)
+    {
+        Vector3 offset =  target - position;
         float sqrLen = offset.sqrMagnitude;
         return sqrLen < distance * distance;
     }

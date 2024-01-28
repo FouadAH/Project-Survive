@@ -144,6 +144,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
   forceMod: 2
   healthSlider: {fileID: 0}
 --- !u!64 &208900344881838864
@@ -186,7 +189,7 @@ MonoBehaviour:
     m_Bits: 1024
   checkDamageTrigger: 0
   isPiercing: 0
-  launchSpeed: 50
+  launchSpeed: 75
   launchDistance: 4
   launchDuration: 0.3
   launchableNoCollision:

@@ -7,10 +7,10 @@ public class HealthPickup : PickupBase
     public PlayerDataSO playerDataSO;
     public float healing;
 
-    public override void OnPickUp()
+    public override void OnPickUp(DamageController damageController)
     {
-        base.OnPickUp();
+        base.OnPickUp(damageController);
+        damageController.Heal(healing);
         Destroy(gameObject);
-        //playerDataSO.health += healing;
     }
 }

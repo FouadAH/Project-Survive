@@ -23,6 +23,11 @@ public class EntityManager : MonoBehaviour
         entities.Add(entity);
     }
 
+    public void RemoveEntity(EntityBase entity)
+    {
+        entities.Remove(entity);
+    }
+
     public void AddTarget(Transform entity)
     {
         targets.Add(entity);

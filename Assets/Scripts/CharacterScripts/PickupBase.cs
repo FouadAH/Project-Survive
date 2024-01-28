@@ -6,7 +6,7 @@ public class PickupBase : MonoBehaviour
 {
     public LayerMask playerMask;
 
-    public virtual void OnPickUp() { }
+    public virtual void OnPickUp(DamageController damageController) { }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -14,7 +14,8 @@ public class PickupBase : MonoBehaviour
         {
             if(Utility.IsInLayerMask(playerMask, other.gameObject.layer))
             {
-                OnPickUp();
+                DamageController damageController = other.GetComponent<DamageController>();
+                OnPickUp(damageController);
             }
         }
     }

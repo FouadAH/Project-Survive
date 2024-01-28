@@ -27,6 +27,14 @@ public class DamageController : DamagableBase
         }
     }
 
+    public void Init(float maxHealth)
+    {
+        health = maxHealth;
+        if (healthSlider != null)
+        {
+            healthSlider.SetMax(maxHealth);
+        }
+    }
     public override void TakeDamage(float damageValue, Vector3 normal, float force = 1)
     {
         if (rb != null)

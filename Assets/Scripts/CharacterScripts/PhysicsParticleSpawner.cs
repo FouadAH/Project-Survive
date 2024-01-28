@@ -15,6 +15,7 @@ public class PhysicsParticleSpawner : MonoBehaviour
     [ContextMenu("Test Spawn")]
     public void Spawn()
     {
+        Debug.Log("Spawn particles");
         for (int i = 0; i < spawnAmount; i++)
         {
             var shell = Instantiate(spawnPrefab, transform.position, Quaternion.identity);

@@ -6,7 +6,7 @@ using UnityEngine.InputSystem.Interactions;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(InputProvider))]
-public class PlayerInputController : DamagableBase
+public class PlayerInputController : MonoBehaviour
 {
     public Transform orientation;
 
@@ -81,19 +81,12 @@ public class PlayerInputController : DamagableBase
             inputProvider.OnStopSprintEvent();
         }
     }
+    public void OnDeath(Vector3 normal, float force = 1)
+    {
+    }
 
-    //public override void TakeDamage(float damageValue, Vector3 normal, float force = 1)
-    //{
-    //    base.TakeDamage(damageValue, normal, force);
-    //}
+    public void TakeDamage(float damageValue, Vector3 normal, float force = 1)
+    {
 
-    //public override void Heal(float healValue)
-    //{
-    //    base.Heal(healValue);
-    //}
-
-    //public override void OnDeath(Vector3 normal, float force = 1)
-    //{
-    //    base.OnDeath(normal, force);
-    //}
+    }
 }
