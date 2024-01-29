@@ -190,4 +190,11 @@ public static class Ballistics
         return (2.0f * vel * Mathf.Sin(angle)) / -Physics.gravity.y;
     }
 
+    public static float HeightFromDistance(float distance, float angle)
+    {
+        var num = distance * Mathf.Tan(angle);
+        var denom = 4;
+        return num/denom;
+    }
+
 }

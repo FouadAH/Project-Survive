@@ -33,7 +33,7 @@ public class RangeAttackState : AttackState
 
         if (RangeCheck())
         {
-            entity.projectileController.LaunchProjectile(entity.runtimeData.playerPosition);
+            entity.projectileController.LaunchProjectile(entity.runtimeData.playerPosition, entity.runtimeData.playerMotion);
         }
     }
 

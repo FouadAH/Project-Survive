@@ -55,7 +55,8 @@ MonoBehaviour:
   hitMask:
     serializedVersion: 2
     m_Bits: 192
-  speed: 3
+  speedModifier: 0
+  angle: 45
   radius: 8
   force: 25
   explosionDelay: 1

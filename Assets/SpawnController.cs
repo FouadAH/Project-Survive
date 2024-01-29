@@ -13,10 +13,12 @@ public class SpawnController : MonoBehaviour
     public float spawnWaitTime = 3f;
     public EntitySpawnDataList spawnDataList = new EntitySpawnDataList();
     private Queue<Entity> spawnQueue = new Queue<Entity>();
+    //private List<Entity> spawnedEntities = new List<Entity>();
+
     System.Random rand = new System.Random();
     private void Start()
     {
-        ConstructSpawnQueue();
+        //ConstructSpawnQueue();
     }
 
     [ContextMenu("Construct Queue")]

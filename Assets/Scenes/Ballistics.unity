@@ -542,10 +542,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e48e2d209ffc64943aae7d122f24df39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endPosition: {fileID: 1348314323}
   maxHeight: 60
   debugPath: 1
-  grenade: {fileID: 2034910195}
+  hitMask:
+    serializedVersion: 2
+    m_Bits: 0
+  speedModifier: 0
+  angle: 60
 --- !u!4 &2034910197
 Transform:
   m_ObjectHideFlags: 0

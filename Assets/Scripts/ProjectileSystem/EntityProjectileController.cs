@@ -30,7 +30,7 @@ public class EntityProjectileController : MonoBehaviour
             attackCooldownCurrent = 0;
         }
     }
-    public void LaunchProjectile(Vector3 targetPosition)
+    public void LaunchProjectile(Vector3 targetPosition, Vector3 targetMotion)
     {
         if (attackCooldownCurrent != 0)
             return;
@@ -48,7 +48,7 @@ public class EntityProjectileController : MonoBehaviour
             targetPosition.y += offsetY;
             targetPosition.z += offsetZ;
 
-            projectile.Launch(targetPosition);
+            projectile.Launch(targetPosition + targetMotion);
         }
     }
 }

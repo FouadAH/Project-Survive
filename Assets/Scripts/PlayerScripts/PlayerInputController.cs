@@ -28,6 +28,7 @@ public class PlayerInputController : MonoBehaviour
 
     private void Update()
     {
+        playerRuntimeDataSO.playerMotion = transform.position - playerRuntimeDataSO.playerPosition;
         playerRuntimeDataSO.playerPosition = transform.position;
 
         orientation.rotation = Quaternion.Slerp(orientation.rotation, Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0), rotationRate);

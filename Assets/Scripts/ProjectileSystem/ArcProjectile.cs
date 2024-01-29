@@ -10,9 +10,16 @@ public class ArcProjectile : ProjectileBase
     public LayerMask hitMask;
     [Range(1f, 2f)]
     public float speedModifier;
+
+    public float angle;
     Ballistics.LaunchData launchData;
     Vector3 launchPosition;
-
+    //public Transform endPos;
+    private void Start()
+    {
+        //projectileRigidbody.useGravity = false;
+        //Launch(endPos.position);
+    }
     private void Update()
     {
         if (debugPath)
@@ -26,7 +33,11 @@ public class ArcProjectile : ProjectileBase
         launchPosition = transform.position;
 
         float height = endPosition.y - transform.position.y;
-        if(height <= maxHeight)
+        Vector3 displasementXZ = new Vector3(endPosition.x - launchPosition.x, 0, endPosition.z - launchPosition.z);
+
+        maxHeight = Ballistics.HeightFromDistance(displasementXZ.magnitude, angle);
+
+        if (height <= maxHeight)
         {
             launchData = Ballistics.CalculateVelocity(transform.position, endPosition, maxHeight);
         }

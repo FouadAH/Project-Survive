@@ -6,4 +6,6 @@ using UnityEngine;
 public class PlayerRuntimeDataSO : ScriptableObject
 {
     public Vector3 playerPosition;
+    public Vector3 playerMotion;
+
 }

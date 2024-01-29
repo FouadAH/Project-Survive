@@ -56,6 +56,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 192
   speedModifier: 0
+  angle: 60
   radius: 2
   force: 20
   damageable:
