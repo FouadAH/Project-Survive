@@ -17,4 +17,6 @@ public class GunItem : MonoBehaviour
     [Header("Canvas")]
     public Transform bulletCountParent;
 
+    public bool isAvailable;
+
 }

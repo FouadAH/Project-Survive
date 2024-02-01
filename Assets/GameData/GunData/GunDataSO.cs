@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine;
 [CreateAssetMenu]
 public class GunDataSO : ScriptableObject
 {
+    public float baseDamage;
+
     [Header("Bullet Settings")]
 
     public GameObject bulletPrefab;
@@ -43,4 +46,19 @@ public class GunDataSO : ScriptableObject
     public bool isConeCast;
     public float fireRate;
 
+    public bool isAvailable;
+
+    public Action OnSetAvailable;
+
+    private void OnEnable()
+    {
+        isAvailable = false;
+    }
+
+    public void SetIsAvailable()
+    {
+        isAvailable = true;
+        OnSetAvailable?.Invoke();
+
+    }
 }

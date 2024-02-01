@@ -8,7 +8,7 @@ using UnityEngine.Animations.Rigging;
 public class GunController : MonoBehaviour
 {
     public GunItem gunItem;
-
+    public PlayerAbilityDataSO playerAbilityDataSO;
     public Transform targetObject;
     public LayerMask obstacleMask;
     public Collider coneCollider;
@@ -45,11 +45,16 @@ public class GunController : MonoBehaviour
 
     private void Update()
     {
+        if (gunItem == null)
+            return;
+
         Reload();
         if(isHeld && gunItem.gunDataSO.canAutoFire)
         {
             Fire(characterController);
         }
+
+        damageSource.damageValue = gunItem.gunDataSO.baseDamage + playerAbilityDataSO.damageMod;
     }
 
     public void SwitchActiveGun(GunItem gunItem)

@@ -12,8 +12,15 @@ public class WaveManager : MonoBehaviour
     public int minWaveEntityCount = 30;
     public int maxWaveEntityCount = 50;
 
+    public float baseTimeMod;
+    public float baseEntityCountMod;
+
+    public float baseSpawnerCurrencyMod;
+
+
     [Header("Canvas Settings")]
-    public TMPro.TextMeshPro waveTimerText;
+    public TMPro.TMP_Text waveTimerText;
+    public CanvasGroup abilityChoiceCanvas;
 
     private float currentWaveTime;
     private int currentEntityCount;
@@ -32,18 +39,38 @@ public class WaveManager : MonoBehaviour
     private void Update()
     {
         currentEntityCount = EntityManager.Instance.entities.Count;
-        waveTimerText.text = currentWaveTime.ToString();
-
+        waveTimerText.text = Mathf.Ceil(currentWaveTime).ToString();
     }
 
     public void StartWave()
     {
+        StartCoroutine(WaveRoutine());
+    }
+
+    public void EndWave()
+    {
+        abilityChoiceCanvas.gameObject.SetActive(true);
+    }
+
+    IEnumerator WaveRoutine()
+    {
+        abilityChoiceCanvas.gameObject.SetActive(false);
+
         currentWaveCount++;
-        currentWaveTime = waveTime;
+        currentWaveTime = waveTime + (baseTimeMod * currentWaveCount);
 
         foreach (var spawner in spawnControllers)
         {
+            spawner.maxSpawnCount += (int)(baseEntityCountMod * currentWaveCount);
+            spawner.spawnCurrency += (int)(baseSpawnerCurrencyMod * currentWaveCount);
             spawner.ConstructSpawnQueue();
         }
+
+        while (currentWaveTime > 0) 
+        {
+            currentWaveTime -= Time.deltaTime;
+            yield return null;
+        }
+        EndWave();
     }
 }

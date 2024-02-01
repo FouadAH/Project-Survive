@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class LaunchController : MonoBehaviour
 {
+    public PlayerAbilityDataSO playerAbilityDataSO;
+
     public Transform launchPivot;
     public Launchable currentLaunchable;
     public LayerMask launchableMask;
@@ -17,6 +19,9 @@ public class LaunchController : MonoBehaviour
 
     public void OnLaunch(InputAction.CallbackContext context)
     {
+        if (!playerAbilityDataSO.hasTelekenises)
+            return;
+
         if (context.phase == InputActionPhase.Started)
         {
             if (isLaunching)

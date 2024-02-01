@@ -12,6 +12,7 @@ public class PlayerInputController : MonoBehaviour
 
     //public PlayerDataSO playerDataSO;
     public PlayerRuntimeDataSO playerRuntimeDataSO;
+    public PlayerAbilityDataSO playerAbilityDataSO;
 
     [Range(0f, 1f)]
     public float rotationRate;
@@ -51,11 +52,17 @@ public class PlayerInputController : MonoBehaviour
 
                 if (context.interaction is HoldInteraction)
                 {
+                    if (!playerAbilityDataSO.hasHover)
+                        return;
+
                     inputProvider.OnStartHover();
                 }
                 break;
 
             case InputActionPhase.Canceled:
+
+                if (!playerAbilityDataSO.hasHover)
+                    return;
 
                 inputProvider.OnStopHover();
                 break;
@@ -72,6 +79,9 @@ public class PlayerInputController : MonoBehaviour
 
     public void OnDash(InputAction.CallbackContext context)
     {
+        if (!playerAbilityDataSO.hasDash)
+            return;
+
         if (context.phase == InputActionPhase.Started)
         {
             inputProvider.OnDash();

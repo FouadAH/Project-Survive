@@ -25,7 +25,7 @@ public class PhysicsParticleSpawner : MonoBehaviour
             float randomZ = Random.Range(forceMinMax_Z.x, forceMinMax_Z.y);
 
             Vector3 randomDir = new Vector3(randomX, randomY, randomZ);
-            Debug.Log(randomDir);
+            //Debug.Log(randomDir);
             shell.GetComponent<Rigidbody>().AddForce(randomDir * force, ForceMode.Impulse);
             //shell.GetComponent<Rigidbody>().AddRelativeForce(velocity, ForceMode.Acceleration);
         }

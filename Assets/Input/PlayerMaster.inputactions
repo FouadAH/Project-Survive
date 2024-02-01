@@ -214,6 +214,34 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "UI",
+            "id": "05ae43a2-6587-4c77-a912-78ad032abd2c",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "18cf2497-9bfd-44d4-b06e-87bec0121c07",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "ea6d499a-993b-47d7-8f0f-33a7ad068c0a",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

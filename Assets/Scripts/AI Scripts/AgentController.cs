@@ -10,13 +10,13 @@ public class AgentController : MonoBehaviour
     private NavMeshAgent agent;
     private Vector3 targetPosition;
 
-    private CharacterController characterController;
+    private Rigidbody characterController;
     private float elapsed = 0.0f;
-
+    private Vector3 lastPosition = Vector3.zero;
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        characterController = GetComponent<CharacterController>();
+        characterController = GetComponent<Rigidbody>();
 
         agent.updatePosition = false;
         agent.updateRotation = false;
@@ -26,7 +26,9 @@ public class AgentController : MonoBehaviour
     void Update()
     {
         agent.nextPosition = transform.position;
-        agent.velocity = characterController.velocity;
+        agent.velocity = transform.position - lastPosition;
+
+        lastPosition = transform.position;
 
         elapsed += Time.deltaTime;
         if (elapsed > 1f/updateRate)

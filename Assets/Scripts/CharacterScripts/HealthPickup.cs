@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class HealthPickup : PickupBase
 {
-    public PlayerDataSO playerDataSO;
     public float healing;
 
     public override void OnPickUp(DamageController damageController)

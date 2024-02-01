@@ -6,7 +6,7 @@ public class BehaviourBase : MonoBehaviour
 {
     protected ContextMap contextMap;
 
-    private void Start()
+    public virtual void Start()
     {
         Init();
     }

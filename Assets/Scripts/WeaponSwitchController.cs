@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,15 +9,34 @@ public class WeaponSwitchController : MonoBehaviour
     public GunController gunController;
 
     public List<GunItem> gunItems = new List<GunItem>();
+    public List<GunItem> availableGunItems = new List<GunItem>();
+
     public GunItem currentItem;
     
     private int currentIndex;
 
     private void Start()
     {
-        currentItem = gunItems[currentIndex];
+        InitList();
+        currentItem = availableGunItems[currentIndex];
+        foreach (var item in gunItems)
+        {
+            item.gunDataSO.OnSetAvailable += InitList;
+        }
     }
 
+    private void OnDestroy()
+    {
+        foreach (var item in gunItems)
+        {
+            item.gunDataSO.OnSetAvailable -= InitList;
+        }
+    }
+
+    public void InitList()
+    {
+        availableGunItems = gunItems.Where((gun) => gun.gunDataSO.isAvailable == true).ToList();
+    }
     public void OnSwitch(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -28,9 +48,16 @@ public class WeaponSwitchController : MonoBehaviour
 
     public void Switch(bool down)
     {
-        currentIndex = (down) ? (currentIndex + 1) % gunItems.Count  : Mathf.Abs(currentIndex - 1) % gunItems.Count;
-        currentItem = gunItems[currentIndex];
+        currentIndex = (down) ? (currentIndex + 1) % availableGunItems.Count : Mathf.Abs(currentIndex - 1) % availableGunItems.Count;
 
-        gunController.SwitchActiveGun(currentItem);
+        if (currentItem.gunDataSO.isAvailable)
+        {
+            currentItem = availableGunItems[currentIndex];
+            gunController.SwitchActiveGun(currentItem);
+        }
+        else
+        {
+            Switch(down);
+        }
     }
 }

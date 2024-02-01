@@ -10,22 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 74e5dbe1507887446886c7c1262cd649, type: 3}
-  m_Name: ShotgunData
+  m_Name: RifleData
   m_EditorClassIdentifier: 
+  baseDamage: 15
   bulletPrefab: {fileID: 5897591621347321865, guid: 30adc3aba7224c54aabab670004e92d4, type: 3}
-  maxBulletCount: 8
-  bulletFiredPerShot: 8
-  randomSpreadRate: 11.11
-  reloadRate: 0.25
+  maxBulletCount: 30
+  bulletFiredPerShot: 1
+  randomSpreadRate: 2
+  reloadRate: 0.1
   reloadWaitTime: 0.3
   recoilTimeStart: 0.1
   recoilTimeEnd: 0.3
   recoilDistanceStartX: -0.3
   recoilDistanceEndX: 0.65
-  recoilDistanceStartY: 0.4
+  recoilDistanceStartY: 0.1
   recoilDistanceEndY: 0
-  recoilAngleStart: {x: 0, y: -6.4, z: 0}
+  recoilAngleStart: {x: 0, y: -15, z: 0}
   recoilAngleEnd: {x: 0, y: 0, z: 0}
-  canAutoFire: 0
-  isConeCast: 1
-  fireRate: 0
+  canAutoFire: 1
+  isConeCast: 0
+  fireRate: 0.15
+  isAvailable: 1

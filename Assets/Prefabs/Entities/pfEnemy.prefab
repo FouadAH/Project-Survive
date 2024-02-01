@@ -124,7 +124,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7063145125881949397}
-  - component: {fileID: 6049161510490144332}
   - component: {fileID: 1124149997536131994}
   - component: {fileID: 8021661331946080848}
   - component: {fileID: 4038354889128676621}
@@ -134,6 +133,7 @@ GameObject:
   - component: {fileID: 960538228328519316}
   - component: {fileID: 2113262773733269208}
   - component: {fileID: 8697329889246045696}
+  - component: {fileID: 8852348395659278870}
   m_Layer: 10
   m_Name: pfEnemy
   m_TagString: Untagged
@@ -157,32 +157,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!143 &6049161510490144332
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7736473191686139857}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 5.29
-  m_Radius: 1.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1124149997536131994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,17 +169,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d41a87ad16fa0a24b97f65b6e9ce95dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMask:
-    serializedVersion: 2
-    m_Bits: 128
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 64
-  turnSpeed: 10
-  minDistance: 10
-  maxDistance: 25
+  entityData: {fileID: 0}
+  runtimeData: {fileID: 0}
+  drawGizmos: 0
+  displayText: 0
+  debugText: {fileID: 0}
+  playerChecker: {fileID: 0}
+  IdleStateData: {fileID: 0}
+  PatrolStateData: {fileID: 0}
+  PlayerDetectedStateData: {fileID: 0}
+  PulledStateData: {fileID: 0}
   orientation: {fileID: 6672820433382720853}
-  playerRuntimeDataSO: {fileID: 11400000, guid: 4c8a84ed6eb317142a898ac9417bf5c1, type: 2}
+  meleeAttackController: {fileID: 0}
+  projectileController: {fileID: 0}
+  ragdoll: {fileID: 0}
+  canvas: {fileID: 0}
+  lookAtPlayer: 0
+  particleSpawner: {fileID: 0}
 --- !u!114 &8021661331946080848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,6 +224,7 @@ MonoBehaviour:
   accelarationHovering: 0.5
   accelarationAirborne: 0.08
   orientation: {fileID: 6672820433382720853}
+  isRigidbodyControl: 1
 --- !u!114 &5423239581667997841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,6 +238,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+  OnDeathEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
   forceMod: 25
   healthSlider: {fileID: 0}
 --- !u!195 &217149890113942431
@@ -307,6 +294,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resolution: 8
+  lerpTime: 0.1
+  space: 0
+  lowestDangerThreshold: 0.1
 --- !u!114 &2113262773733269208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,8 +309,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bed7d937efe7a324dae3f38b25cb8474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDistance: 500
-  targetPrefab: {fileID: 0}
+  maxDetectDistance: 5
+  maxSeekDistance: 5
+  resolution: 2
+  falloffRate: 0.1
+  isSingleTarget: 0
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 0
+  drawGizmos: 0
+  hasTarget: 0
+  target: {x: 0, y: 0, z: 0}
 --- !u!114 &8697329889246045696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,11 +332,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0af3d1f92ae4fee46b6c7306461b0540, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minDistance: 15
+  minDetectionDistance: 5
+  minAvoidDistance: 5
+  resolution: 2
+  dangerMapResolution: 2
+  falloffRate: 0.1
   obstacleMask:
     serializedVersion: 2
     m_Bits: 1024
-  obstaclePrefab: {fileID: 0}
+  drawGizmos: 0
+--- !u!54 &8852348395659278870
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7736473191686139857}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!1 &8233212595871964935
 GameObject:
   m_ObjectHideFlags: 0

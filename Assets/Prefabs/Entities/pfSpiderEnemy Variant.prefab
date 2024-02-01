@@ -5024,6 +5024,37 @@ Transform:
   m_Father: {fileID: 7046399088230213527}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 3.12, y: -3.564, z: -22.267}
+--- !u!1 &6694797744864644383
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2169363053756679548}
+  m_Layer: 10
+  m_Name: pfTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2169363053756679548
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6694797744864644383}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1684118001027835294}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6735550834117093237
 GameObject:
   m_ObjectHideFlags: 0
@@ -7661,7 +7692,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2434bf861963b644c9c5e3dad87a0bdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spiderController: {fileID: 1684118001027835294}
+  spiderController: {fileID: 2169363053756679548}
   spiderBody: {fileID: 7228636562035285815}
   orientation: {fileID: 2788079805285647547}
   legCount: 6
@@ -7722,7 +7753,7 @@ MonoBehaviour:
   debugCastGizmo: 0
   debugNormalGizmo: 0
   debugTargetPositionGizmo: 0
-  debugDesiredPositionGizmo: 1
+  debugDesiredPositionGizmo: 0
 --- !u!4 &2657155737790162339 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5812491775530781682, guid: 8e3ba75e6b2193946a5f385c68e76da1, type: 3}
@@ -7949,6 +7980,22 @@ PrefabInstance:
       propertyPath: targetMask.m_Bits
       value: 128
       objectReference: {fileID: 0}
+    - target: {fileID: 4038354889128676621, guid: 58791f1ec729f444283679bdc0e86f5a, type: 3}
+      propertyPath: height
+      value: 2.580002
+      objectReference: {fileID: 0}
+    - target: {fileID: 4038354889128676621, guid: 58791f1ec729f444283679bdc0e86f5a, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 4038354889128676621, guid: 58791f1ec729f444283679bdc0e86f5a, type: 3}
+      propertyPath: groundCastDistance
+      value: 5.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 4038354889128676621, guid: 58791f1ec729f444283679bdc0e86f5a, type: 3}
+      propertyPath: isRigidbodyControl
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5423239581667997841, guid: 58791f1ec729f444283679bdc0e86f5a, type: 3}
       propertyPath: health
       value: 100
@@ -8089,7 +8136,8 @@ PrefabInstance:
       propertyPath: shouldMove
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8852348395659278870, guid: 58791f1ec729f444283679bdc0e86f5a, type: 3}
     m_RemovedGameObjects:
     - {fileID: 8233212595871964935, guid: 58791f1ec729f444283679bdc0e86f5a, type: 3}
     m_AddedGameObjects:
@@ -8099,6 +8147,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7063145125881949397, guid: 58791f1ec729f444283679bdc0e86f5a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 531174862724215722}
+    - targetCorrespondingSourceObject: {fileID: 7063145125881949397, guid: 58791f1ec729f444283679bdc0e86f5a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2169363053756679548}
     - targetCorrespondingSourceObject: {fileID: 6672820433382720853, guid: 58791f1ec729f444283679bdc0e86f5a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7228636562035285815}
@@ -8145,8 +8196,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 6.48, y: 3.28, z: 6.84}
-  m_Center: {x: 0, y: -0.54, z: 0}
+  m_Size: {x: 6.48, y: 4.4426994, z: 6.84}
+  m_Center: {x: 0, y: 0.041349888, z: 0}
 --- !u!114 &9005270774912121654
 MonoBehaviour:
   m_ObjectHideFlags: 0

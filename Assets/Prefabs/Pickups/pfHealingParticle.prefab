@@ -121,7 +121,6 @@ MonoBehaviour:
   playerMask:
     serializedVersion: 2
     m_Bits: 128
-  playerDataSO: {fileID: 0}
   healing: 5
 --- !u!1 &8248695228092433191
 GameObject:
@@ -135,6 +134,7 @@ GameObject:
   - component: {fileID: 6083242840042776988}
   - component: {fileID: 2917180899939759742}
   - component: {fileID: 8144650051227056103}
+  - component: {fileID: 2975550282874286587}
   m_Layer: 8
   m_Name: pfHealingParticle
   m_TagString: Untagged
@@ -205,7 +205,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
 --- !u!96 &8144650051227056103
 TrailRenderer:
   serializedVersion: 3
@@ -328,3 +328,16 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
+--- !u!114 &2975550282874286587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8248695228092433191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d12022bc894e8794eb31681233338131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyTime: 5

@@ -30,6 +30,10 @@ public class DamageController : DamagableBase
     public void Init(float maxHealth)
     {
         health = maxHealth;
+        InitMax(maxHealth);
+    }
+    public void InitMax(float maxHealth)
+    {
         if (healthSlider != null)
         {
             healthSlider.SetMax(maxHealth);

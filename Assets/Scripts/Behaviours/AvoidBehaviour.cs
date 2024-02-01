@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class AvoidBehaviour : BehaviourBase
 {
@@ -17,6 +18,13 @@ public class AvoidBehaviour : BehaviourBase
 
     public bool drawGizmos;
     private List<Transform> obstacles = new();
+
+    int instanceID;
+    public override void Start()
+    {
+        base.Start();
+        instanceID = transform.GetComponent<Entity>().GetInstanceID();
+    }
 
     private void Update()
     {
@@ -39,14 +47,14 @@ public class AvoidBehaviour : BehaviourBase
         {
             if (entity != null)
             {
-                if (entity.GetInstanceID() == transform.GetComponent<Entity>().GetInstanceID())
+                if (entity.GetInstanceID() == instanceID)
                     continue;
 
                 Vector3 offset = entity.transform.position - transform.position;
-                float distance = Vector3.Distance(entity.transform.position, transform.position);
+                //float distance = Vector3.Distance(entity.transform.position, transform.position);
                 float sqrLen = offset.sqrMagnitude;
                 // square the distance we compare with
-                if (distance <= minDetectionDistance)
+                if (sqrLen <= minDetectionDistance*minDetectionDistance)
                 {
                     if (drawGizmos)
                     {
@@ -66,10 +74,12 @@ public class AvoidBehaviour : BehaviourBase
         foreach (var obstacle in obstacles)
         {
             float distance = Vector3.Distance(transform.position, obstacle.position);
+            Vector3 toVector = obstacle.position - transform.position;
+            float sqrLen = toVector.sqrMagnitude;
 
-            if (distance < minDetectionDistance)
+            if (sqrLen < minDetectionDistance * minDetectionDistance)
             {
-                Vector3 toVector = obstacle.position - transform.position;
+                //Vector3 toVector = obstacle.position - transform.position;
 
                 int index = contextMap.MapDirectionToSlotIndex(toVector);
                 if (index != -1)

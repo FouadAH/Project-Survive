@@ -1,11 +1,12 @@
 using Cinemachine;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 
-[RequireComponent(typeof(CharacterController), typeof(InputProvider))]
+[RequireComponent(typeof(InputProvider))]
 public class CharacterMovement : MonoBehaviour
 {
     [Header("Speed Settings")]
@@ -36,11 +37,16 @@ public class CharacterMovement : MonoBehaviour
     public float accelarationAirborne = 0.05f;
 
     public Transform orientation;
-
+    public bool isRigidbodyControl;
+    public float height;
+    public float groundCastDistance;
+    public LayerMask groundMask;
     private Vector3 moveDirection;
     private Vector3 moveInput;
 
     public CharacterController characterController { get; private set; }
+    public Rigidbody _rigidbody { get; private set; }
+
 
     float currentVelocityXRef;
     float currentVelocityX;
@@ -98,36 +104,70 @@ public class CharacterMovement : MonoBehaviour
         inputProvider.StartHoverEvent -= OnStartHover;
         inputProvider.StopHoverEvent -= OnStopHover;
     }
-
+    RaycastHit slopeHit;
     private void FixedUpdate()
     {
-        //orientation.rotation = Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0);
-        //moveDirection = orientation.forward * moveInput.z + orientation.right * moveInput.x;
-        this.moveDirection = inputProvider.movementVector;
-
-        float speed = (isSprinting) ? sprintSpeed : moveSpeed;
-        float acceleration = (characterController.isGrounded) ? accelarationGrounded : accelarationAirborne;
-        float accelerationY = (isHovering) ? accelarationHovering : acceleration;
-
-        currentVelocityX = Mathf.SmoothDamp(currentVelocityX, moveDirection.x * speed, ref currentVelocityXRef, acceleration);
-        currentVelocityZ = Mathf.SmoothDamp(currentVelocityZ, moveDirection.z * speed, ref currentVelocityZRef, acceleration);
-        currentVelocityY = Mathf.SmoothDamp(currentVelocityY, targetVelocityY, ref currentVelocityYRef, accelerationY);
-
-        if (!characterController.isGrounded)
+        if (isRigidbodyControl)
         {
-            targetVelocityY += gravity * Time.deltaTime;
-        }
+            this.moveDirection = inputProvider.movementVector;
+            float speed = moveSpeed;
+            float acceleration =  accelarationGrounded;
+            float accelerationY = (isHovering) ? accelarationHovering : acceleration;
 
-        if (characterController.isGrounded && isHovering)
+            bool isGrounded = Physics.Raycast(transform.position + Vector3.up * height, Vector3.down, out slopeHit, height / 2 + groundCastDistance, groundMask);
+            if (isGrounded)
+            {
+                float targetY = slopeHit.point.y + height;
+                transform.DOMoveY(targetY, 0.1f);
+                targetVelocityY = 0;
+                //Debug.Log(targetY);
+            }
+            else
+            {
+                targetVelocityY += gravity * Time.deltaTime;
+            }
+
+            currentVelocityX = Mathf.SmoothDamp(currentVelocityX, moveDirection.x * speed, ref currentVelocityXRef, acceleration);
+            currentVelocityZ = Mathf.SmoothDamp(currentVelocityZ, moveDirection.z * speed, ref currentVelocityZRef, acceleration);
+            currentVelocityY = Mathf.SmoothDamp(currentVelocityY, targetVelocityY, ref currentVelocityYRef, accelerationY);
+
+            Vector3 velocity = new Vector3(currentVelocityX, targetVelocityY, currentVelocityZ);
+            transform.Translate(velocity * Time.deltaTime);
+            return;
+        }
+        else
         {
-            isHovering = false;
-            gravity = normalGravity;
+            if (!characterController.enabled)
+                return;
+
+            //orientation.rotation = Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0);
+            //moveDirection = orientation.forward * moveInput.z + orientation.right * moveInput.x;
+            this.moveDirection = inputProvider.movementVector;
+
+            float speed = (isSprinting) ? sprintSpeed : moveSpeed;
+            float acceleration = (characterController.isGrounded) ? accelarationGrounded : accelarationAirborne;
+            float accelerationY = (isHovering) ? accelarationHovering : acceleration;
+
+            currentVelocityX = Mathf.SmoothDamp(currentVelocityX, moveDirection.x * speed, ref currentVelocityXRef, acceleration);
+            currentVelocityZ = Mathf.SmoothDamp(currentVelocityZ, moveDirection.z * speed, ref currentVelocityZRef, acceleration);
+            currentVelocityY = Mathf.SmoothDamp(currentVelocityY, targetVelocityY, ref currentVelocityYRef, accelerationY);
+
+            if (!characterController.isGrounded)
+            {
+                targetVelocityY += gravity * Time.deltaTime;
+            }
+
+            if (characterController.isGrounded && isHovering)
+            {
+                isHovering = false;
+                gravity = normalGravity;
+            }
+
+            isFalling = currentVelocityY < 0 && !characterController.isGrounded;
+            isRising = currentVelocityY > 0 && !characterController.isGrounded;
+
+            characterController.Move(new Vector3(currentVelocityX, currentVelocityY, currentVelocityZ) * Time.deltaTime);
         }
-
-        isFalling = currentVelocityY < 0 && !characterController.isGrounded;
-        isRising = currentVelocityY > 0 && !characterController.isGrounded;
-
-        characterController.Move(new Vector3(currentVelocityX, currentVelocityY, currentVelocityZ) * Time.deltaTime);
     }
 
     public void OnMove(Vector3 moveDirection)
@@ -225,6 +265,15 @@ public class CharacterMovement : MonoBehaviour
         {
             currentVelocityX = airDashForce * moveDirection.x;
             currentVelocityZ = airDashForce * moveDirection.z;
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (isRigidbodyControl)
+        {
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawLine(transform.position + Vector3.up * height, transform.position + Vector3.up * height + Vector3.down * (height / 2 + groundCastDistance));
         }
     }
 }

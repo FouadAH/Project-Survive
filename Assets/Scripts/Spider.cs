@@ -153,7 +153,7 @@ public class Spider : MonoBehaviour
         Vector3 velocityOffset = velocity * velocityMultiplier;
 
         Vector3 origin = legTargetPosition + velocityOffset + castOffset + stepHeightOffset;
-        Physics.SphereCast(origin, 0.01f, direction, out hit, castDistance, groundMask);
+        Physics.Raycast(origin, direction, out hit, castDistance, groundMask);
 
         if (debugCastGizmo)
         {

@@ -7,6 +7,7 @@ public class SpawnController : MonoBehaviour
 {
     public int spawnCurrency = 100;
     public int maxSpawnCount = 10;
+
     private int spawnCount = 0;
 
     public Vector2 spawnOffsetX;

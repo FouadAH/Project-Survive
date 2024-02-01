@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDataSO : MonoBehaviour
+[CreateAssetMenu]
+public class PlayerDataSO : ScriptableObject
 {
     public float maxHealth;
     public float health;
 
     public float maxMana;
     public float mana;
+
+    public float currency;
+
 }

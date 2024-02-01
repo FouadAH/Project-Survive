@@ -137,7 +137,7 @@ public class Entity : EntityBase
 
         isDead = true;
 
-        characterMovement.characterController.enabled = false;
+        characterMovement.enabled = false;
 
         orientation.gameObject.SetActive(false);
 
