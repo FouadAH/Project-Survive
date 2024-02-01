@@ -73,7 +73,7 @@ public class AvoidBehaviour : BehaviourBase
 
         foreach (var obstacle in obstacles)
         {
-            float distance = Vector3.Distance(transform.position, obstacle.position);
+            //float distance = Vector3.Distance(transform.position, obstacle.position);
             Vector3 toVector = obstacle.position - transform.position;
             float sqrLen = toVector.sqrMagnitude;
 
@@ -84,7 +84,7 @@ public class AvoidBehaviour : BehaviourBase
                 int index = contextMap.MapDirectionToSlotIndex(toVector);
                 if (index != -1)
                 {
-                    float weight = Utility.Remap(distance, 0, minAvoidDistance, 2, 0);
+                    float weight = Utility.Remap(sqrLen, 0, minAvoidDistance * minDetectionDistance, 2, 0);
                     weight = Mathf.Clamp(weight, 0, 1);
 
                     dangerMap[index] = weight;
@@ -103,9 +103,10 @@ public class AvoidBehaviour : BehaviourBase
 
         foreach (var obstacle in obstacles)
         {
-            float distance = Vector3.Distance(transform.position, obstacle.position);
-
-            if (distance < minDetectionDistance)
+            //float distance = Vector3.Distance(transform.position, obstacle.position);
+            Vector3 toVector = obstacle.position - transform.position;
+            float sqrLen = toVector.sqrMagnitude;
+            if (sqrLen < minDetectionDistance * minDetectionDistance)
             {
                 Vector3 awayVector = transform.position - obstacle.position;
                 Vector3 normal = new Vector3(-awayVector.y, awayVector.x, awayVector.z).normalized;
@@ -115,7 +116,7 @@ public class AvoidBehaviour : BehaviourBase
                 int index = contextMap.MapDirectionToSlotIndex(awayVector);
                 if (index != -1)
                 {
-                    float weight = Utility.Remap(distance, 0, minAvoidDistance, 1, 0);
+                    float weight = Utility.Remap(sqrLen, 0, minAvoidDistance * minAvoidDistance, 1, 0);
                     normal = normal * weight;
                     Debug.DrawRay(transform.position, normal, Color.yellow);
 
