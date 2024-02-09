@@ -70,7 +70,7 @@ public class CharacterMovement : MonoBehaviour
 
     private CinemachineImpulseSource impulseSource;
     private InputProvider inputProvider;
-
+    Vector3 velocityRB;
     private void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -88,6 +88,7 @@ public class CharacterMovement : MonoBehaviour
         //inputProvider.MoveEvent += OnMove;
         inputProvider.DashEvent += OnDash;
         inputProvider.JumpEvent += OnJump;
+
         inputProvider.StartSprintEvent += OnStartSprinting;
         inputProvider.StopSprintEvent += OnStopSprinting;
         inputProvider.StartHoverEvent += OnStartHover;
@@ -99,6 +100,7 @@ public class CharacterMovement : MonoBehaviour
         //inputProvider.MoveEvent -= OnMove;
         inputProvider.DashEvent -= OnDash;
         inputProvider.JumpEvent -= OnJump;
+
         inputProvider.StartSprintEvent -= OnStartSprinting;
         inputProvider.StopSprintEvent -= OnStopSprinting;
         inputProvider.StartHoverEvent -= OnStartHover;
@@ -131,8 +133,8 @@ public class CharacterMovement : MonoBehaviour
             currentVelocityZ = Mathf.SmoothDamp(currentVelocityZ, moveDirection.z * speed, ref currentVelocityZRef, acceleration);
             currentVelocityY = Mathf.SmoothDamp(currentVelocityY, targetVelocityY, ref currentVelocityYRef, accelerationY);
 
-            Vector3 velocity = new Vector3(currentVelocityX, targetVelocityY, currentVelocityZ);
-            transform.Translate(velocity * Time.deltaTime);
+            velocityRB = new Vector3(currentVelocityX, targetVelocityY, currentVelocityZ);
+            transform.Translate(velocityRB * Time.deltaTime);
             return;
         }
         else

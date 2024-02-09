@@ -13,7 +13,7 @@ public class PlayerInputController : MonoBehaviour
     //public PlayerDataSO playerDataSO;
     public PlayerRuntimeDataSO playerRuntimeDataSO;
     public PlayerAbilityDataSO playerAbilityDataSO;
-
+    public CharacterMovement characterMovement;
     [Range(0f, 1f)]
     public float rotationRate;
     InputProvider inputProvider;
@@ -23,7 +23,7 @@ public class PlayerInputController : MonoBehaviour
     private void Awake()
     {
         inputProvider = GetComponent<InputProvider>();
-
+        characterMovement = GetComponent<CharacterMovement>();
         //health = playerDataSO.maxHealth;
     }
 
@@ -36,12 +36,26 @@ public class PlayerInputController : MonoBehaviour
         moveDirection = orientation.forward * normalizedInput.z + orientation.right * normalizedInput.x;
 
         inputProvider.OnMove(moveDirection);
+
+        characterMovement.moveSpeed = playerAbilityDataSO.Speed;
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
         normalizedInput = context.ReadValue<Vector2>().normalized;
         normalizedInput = new Vector3(normalizedInput.x, 0, normalizedInput.y);
+    }
+
+    public void OnHeal(InputAction.CallbackContext context)
+    {
+        switch (context.phase)
+        {
+            case InputActionPhase.Started:
+
+                inputProvider.OnHeal();
+
+                break;
+        }
     }
 
     public void OnJump(InputAction.CallbackContext context)

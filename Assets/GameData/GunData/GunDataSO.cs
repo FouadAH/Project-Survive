@@ -10,7 +10,7 @@ public class GunDataSO : ScriptableObject
 
     [Header("Bullet Settings")]
 
-    public GameObject bulletPrefab;
+    public PooledObject bulletPrefab;
     public int maxBulletCount = 30;
     public int bulletFiredPerShot = 1;
 
@@ -46,7 +46,11 @@ public class GunDataSO : ScriptableObject
     public bool isConeCast;
     public float fireRate;
 
+    [Header("Data Settings")]
     public bool isAvailable;
+
+    [Header("UI Settings")]
+    public Color color = Color.white;
 
     public Action OnSetAvailable;
 

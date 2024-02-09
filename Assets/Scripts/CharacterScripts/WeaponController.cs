@@ -56,7 +56,14 @@ public class WeaponController : MonoBehaviour
         var rotation = Quaternion.Euler(Camera.main.transform.rotation.eulerAngles.x, Camera.main.transform.rotation.eulerAngles.y, 0);
         weaponHolderPivot.rotation = Quaternion.Lerp(weaponHolderPivot.rotation, rotation, gunRotationSpeed);
 
-        cinemachineRecomposer.m_ZoomScale = Mathf.Lerp(cinemachineRecomposer.m_ZoomScale, targetZoomScale, aimZoomSpeed);
+        if (cinemachineRecomposer == null)
+        {
+            cinemachineRecomposer = Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera.VirtualCameraGameObject.GetComponent<CinemachineRecomposer>();
+        }
+        else
+        {
+            cinemachineRecomposer.m_ZoomScale = Mathf.Lerp(cinemachineRecomposer.m_ZoomScale, targetZoomScale, aimZoomSpeed);
+        }
     }
 
     public void OnAim(InputAction.CallbackContext context)

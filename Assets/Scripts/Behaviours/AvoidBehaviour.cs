@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using static UnityEngine.EventSystems.EventTrigger;
 
 public class AvoidBehaviour : BehaviourBase
@@ -23,7 +24,7 @@ public class AvoidBehaviour : BehaviourBase
     public override void Start()
     {
         base.Start();
-        instanceID = transform.GetComponent<Entity>().GetInstanceID();
+        instanceID = transform.GetInstanceID();
     }
 
     private void Update()
@@ -43,28 +44,41 @@ public class AvoidBehaviour : BehaviourBase
     public void DistanceChecked()
     {
         obstacles.Clear();
-        foreach (var entity in EntityManager.Instance.entities)
+        SpatialGrid.Instance.ForEachPointInSample(new Vector2(transform.position.x, transform.position.z), (index) =>
         {
-            if (entity != null)
+            var transformToAvoid = EntityManager.Instance.entities[index].transform;
+            Vector3 offsetdist = transformToAvoid.position - transform.position;
+
+            //Debug.DrawRay(transform.position, offsetdist, Color.magenta);
+
+            if (transformToAvoid.GetInstanceID() != instanceID)
             {
-                if (entity.GetInstanceID() == instanceID)
-                    continue;
-
-                Vector3 offset = entity.transform.position - transform.position;
-                //float distance = Vector3.Distance(entity.transform.position, transform.position);
-                float sqrLen = offset.sqrMagnitude;
-                // square the distance we compare with
-                if (sqrLen <= minDetectionDistance*minDetectionDistance)
-                {
-                    if (drawGizmos)
-                    {
-                        Debug.DrawRay(transform.position, offset, Color.magenta);
-                    }
-
-                    obstacles.Add(entity.transform);
-                }
+                obstacles.Add(transformToAvoid);
             }
-        }
+
+        });
+        //foreach (var entity in EntityManager.Instance.entities)
+        //{
+        //    if (entity != null)
+        //    {
+        //        if (entity.GetInstanceID() == instanceID)
+        //            continue;
+
+        //        Vector3 offset = entity.transform.position - transform.position;
+        //        //float distance = Vector3.Distance(entity.transform.position, transform.position);
+        //        float sqrLen = offset.sqrMagnitude;
+        //        // square the distance we compare with
+        //        if (sqrLen <= minDetectionDistance*minDetectionDistance)
+        //        {
+        //            if (drawGizmos)
+        //            {
+        //                Debug.DrawRay(transform.position, offset, Color.magenta);
+        //            }
+
+        //            obstacles.Add(entity.transform);
+        //        }
+        //    }
+        //}
     }
 
     public override float[] ConstructDangerMap()

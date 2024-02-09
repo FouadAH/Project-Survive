@@ -13,17 +13,25 @@ MonoBehaviour:
   m_Name: PlayerAbilityDataSO
   m_EditorClassIdentifier: 
   baseHealth: 250
-  maxHealth: 250
-  baseMana: 100
-  maxMana: 100
+  healthMod: 0
+  baseMana: 60
+  manaMod: 0
+  baseHealing: 30
+  maxHealing: 100
+  healingMod: 0
+  healingManaCostBase: 20
+  minHealingCost: 5
+  healingManaCostMod: 0
   baseSpeed: 25
   maxSpeed: 40
-  currency: 10000
+  speedMod: 0
+  dashSpeedMod: 0
+  launchSpeedBase: 140
+  launchSpeedMod: 0
+  launchDamageBase: 35
+  launchDamageMod: 0
   hasDash: 0
   hasHover: 0
   hasTelekenises: 0
-  hasRifle: 0
-  hasShotgun: 0
-  healthMod: 0
   damageMod: 0
-  speedMod: 0
+  currency: 0

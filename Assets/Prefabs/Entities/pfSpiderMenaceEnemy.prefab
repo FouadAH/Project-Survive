@@ -6950,6 +6950,10 @@ PrefabInstance:
       propertyPath: PlayerDetectedStateData
       value: 
       objectReference: {fileID: 11400000, guid: 6d844883dce98a444b5308d937ef71bc, type: 2}
+    - target: {fileID: 1124149997536131994, guid: 58791f1ec729f444283679bdc0e86f5a, type: 3}
+      propertyPath: particleSpawner_currency
+      value: 
+      objectReference: {fileID: 4647797873538486212}
     - target: {fileID: 1428121896259526177, guid: 58791f1ec729f444283679bdc0e86f5a, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -6985,6 +6989,18 @@ PrefabInstance:
     - target: {fileID: 2113262773733269208, guid: 58791f1ec729f444283679bdc0e86f5a, type: 3}
       propertyPath: targetMask.m_Bits
       value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 4038354889128676621, guid: 58791f1ec729f444283679bdc0e86f5a, type: 3}
+      propertyPath: height
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4038354889128676621, guid: 58791f1ec729f444283679bdc0e86f5a, type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 4038354889128676621, guid: 58791f1ec729f444283679bdc0e86f5a, type: 3}
+      propertyPath: groundCastDistance
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5423239581667997841, guid: 58791f1ec729f444283679bdc0e86f5a, type: 3}
       propertyPath: health
@@ -7048,7 +7064,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7063145125881949397, guid: 58791f1ec729f444283679bdc0e86f5a, type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7063145125881949397, guid: 58791f1ec729f444283679bdc0e86f5a, type: 3}
       propertyPath: m_LocalScale.x
@@ -7142,7 +7158,8 @@ PrefabInstance:
       propertyPath: shouldMove
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8852348395659278870, guid: 58791f1ec729f444283679bdc0e86f5a, type: 3}
     m_RemovedGameObjects:
     - {fileID: 8233212595871964935, guid: 58791f1ec729f444283679bdc0e86f5a, type: 3}
     m_AddedGameObjects:
@@ -7168,6 +7185,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7736473191686139857, guid: 58791f1ec729f444283679bdc0e86f5a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 735514978753259755}
+    - targetCorrespondingSourceObject: {fileID: 7736473191686139857, guid: 58791f1ec729f444283679bdc0e86f5a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4647797873538486212}
   m_SourcePrefab: {fileID: 100100000, guid: 58791f1ec729f444283679bdc0e86f5a, type: 3}
 --- !u!1 &1269653500144161666 stripped
 GameObject:
@@ -7208,8 +7228,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPrefab: {fileID: 8248695228092433191, guid: 585e89fdc6335024fbd1913ef63b3459, type: 3}
-  spawnAmount: 10
+  spawnAmountMin: 1
+  spawnAmountMax: 5
   force: 4
+  forceMinMax_X: {x: -10, y: 10}
+  forceMinMax_Y: {x: 10, y: 25}
+  forceMinMax_Z: {x: -10, y: 10}
+--- !u!114 &4647797873538486212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1269653500144161666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3e5e2f56d5c6a24f942e50404ebdcac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnPrefab: {fileID: 8248695228092433191, guid: c52302b430e488c439dca44483ad11c2, type: 3}
+  spawnAmountMin: 5
+  spawnAmountMax: 10
+  force: 6
   forceMinMax_X: {x: -10, y: 10}
   forceMinMax_Y: {x: 10, y: 25}
   forceMinMax_Z: {x: -10, y: 10}

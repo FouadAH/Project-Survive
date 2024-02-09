@@ -17,10 +17,34 @@ public class Grenade : ArcProjectile
     private bool hasTriggeredExplosion;
 
     private MeshRenderer meshRenderer;
+    private TrailRenderer trailRenderer;
+
     private void Start()
     {
         damageSource = GetComponent<DamageSource>();
         meshRenderer = GetComponent<MeshRenderer>();
+        trailRenderer = GetComponent<TrailRenderer>();  
+    }
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
+        hasTriggeredExplosion = false;
+        projectileRigidbody.velocity = Vector3.zero;
+        projectileRigidbody.useGravity = false;
+    }
+
+    public override void OnDisable()
+    {
+        base.OnDisable();
+        projectileRigidbody.drag = 0;
+        //projectileRigidbody.velocity = Vector3.zero;
+        projectileRigidbody.useGravity = false;
+
+        if (trailRenderer != null)
+        {
+            trailRenderer.enabled = false;
+        }
     }
 
     public void Explode()
@@ -42,7 +66,17 @@ public class Grenade : ArcProjectile
             }
         }
 
-        Destroy(gameObject);
+        ReturnToPool();
+    }
+
+    public override void Launch(Vector3 endPosition)
+    {
+        base.Launch(endPosition);
+
+        if (trailRenderer != null)
+        {
+            trailRenderer.enabled = true;
+        }
     }
 
     public override void OnHit()
@@ -68,7 +102,7 @@ public class Grenade : ArcProjectile
             //float time = Mathf.Sin(currentTime);
             //meshRenderer.material.color = Color.Lerp(Color.white, Color.red, time);
             meshRenderer.material.color = Color.Lerp(Color.white, Color.red, currentTime / (hitTime + explosionDelay));
-
+            //meshRenderer.material
             yield return null;
         }
 

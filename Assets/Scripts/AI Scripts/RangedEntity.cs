@@ -13,19 +13,4 @@ public class RangedEntity : Entity
 
         stateMachine.Initialize(idleState);
     }
-
-    public override void Update()
-    {
-        base.Update();
-    }
-
-    private void OnDrawGizmos()
-    {
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(playerChecker.position, entityData.attackRangeMin);
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(playerChecker.position, entityData.attackRangeMax);
-    }
 }

@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: EntityData
   m_EditorClassIdentifier: 
   moveSpeed: 3
+  turnSpeed: 0
   velocitySmoothing: 0.1
   maxHealth: 30
-  minAggroRange: 4
-  maxAggroRange: 6.5
+  minAggroRange: 10
+  maxAggroRange: 20
+  attackRangeMin: 0
+  attackRangeMax: 0
   playerMask:
     serializedVersion: 2
     m_Bits: 64

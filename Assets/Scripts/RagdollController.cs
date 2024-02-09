@@ -6,6 +6,16 @@ public class RagdollController : DamagableBase
 {
     public Rigidbody body;
 
+    private void OnEnable()
+    {
+        if (gameObject.GetComponent<AutoDestroy>() == null)
+        {
+            gameObject.AddComponent<AutoDestroy>().destroyTime = 3f;
+        }
+
+        transform.parent.gameObject.AddComponent<AutoDestroy>().destroyTime = 3f;
+    }
+
     public override void TakeDamage(float damageValue, Vector3 normal, float force = 1)
     {
         AddForce(normal, force, ForceMode.Impulse);

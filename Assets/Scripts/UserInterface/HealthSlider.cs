@@ -16,7 +16,7 @@ public class HealthSlider : MonoBehaviour
     {
         slider.value = sliderValue;
 
-        healthText.text = $"{slider.value}/{slider.maxValue}";
+        healthText.text = $"{Mathf.CeilToInt(slider.value)}/{slider.maxValue}";
 
         if (billboard)
         {

@@ -5,13 +5,14 @@ using UnityEngine;
 public class Launchable : MonoBehaviour
 {
     [Header("Daamge Settings")]
-    public float damageAmount = 10f;
+    public PlayerAbilityDataSO playerAbilityData;
+    public float damageMod = 10f;
+
     public LayerMask damageableMask;
     public bool checkDamageTrigger;
     public bool isPiercing;
 
     [Header("Launch Settings")]
-    public float launchSpeed = 10f;
     public float launchDistance = 4f;
     public float launchDuration = 2f;
     public LayerMask launchableNoCollision;
@@ -34,7 +35,7 @@ public class Launchable : MonoBehaviour
         var damageable = other?.GetComponent<DamagableBase>();
         if (damageable && Utility.IsInLayerMask(damageableMask, damageable.gameObject.layer))
         {
-            damageable.TakeDamage(damageAmount, Vector2.zero);
+            damageable.TakeDamage(playerAbilityData.LaunchDamage * damageMod, Vector2.zero);
 
             if (!isPiercing)
             {
@@ -54,7 +55,7 @@ public class Launchable : MonoBehaviour
 
         if (!isPiercing)
         {
-            rb.AddForce(launchDirection * launchSpeed, ForceMode.Impulse);
+            rb.AddForce(launchDirection * playerAbilityData.LaunchSpeed, ForceMode.Impulse);
         }
         else
         {

@@ -20,7 +20,7 @@ MonoBehaviour:
   level: 1
   baseModifier: 0
   weight: 75
-  baseCost: 5
+  baseCost: 35
   modifiers:
   - m_PersistentCalls:
       m_Calls:

@@ -9,24 +9,40 @@ public class DamageProjectile : ArcProjectile
     public float force;
     //public ParticleSystem explostionEffect;
     public LayerMask damageable;
+    
     private DamageSource damageSource;
     private bool hasTriggeredHit;
 
     private MeshRenderer meshRenderer;
+    private TrailRenderer trailRenderer;
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
+        hasTriggeredHit = false;
+    }
+
+    public override void OnDisable()
+    {
+        base.OnDisable();
+        projectileRigidbody.drag = 0;
+
+        if (trailRenderer != null)
+        {
+            trailRenderer.enabled = false;
+        }
+    }
+
     private void Start()
     {
         damageSource = GetComponent<DamageSource>();
         meshRenderer = GetComponent<MeshRenderer>();
+        trailRenderer = GetComponent<TrailRenderer>();
     }
-
+   
     public void Hit()
     {
-        //hasExploded = true;
         var colliders = Physics.OverlapSphere(transform.position, radius, damageable);
-
-        //ParticleSystem particleSystem = Instantiate(explostionEffect, transform.position, Quaternion.identity);
-        //particleSystem.Play();
-
         foreach (var collider in colliders.ToList().Distinct())
         {
             var damageController = collider.transform.root.GetComponent<DamageController>();
@@ -36,7 +52,16 @@ public class DamageProjectile : ArcProjectile
             }
         }
 
-        Destroy(gameObject);
+        ReturnToPool();
+    }
+
+    public override void Launch(Vector3 endPosition)
+    {
+        base.Launch(endPosition);
+        if (trailRenderer != null)
+        {
+            trailRenderer.enabled = true;
+        }    
     }
 
     public override void OnHit()

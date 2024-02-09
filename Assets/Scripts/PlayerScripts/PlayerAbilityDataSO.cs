@@ -7,16 +7,25 @@ public class PlayerAbilityDataSO : ScriptableObject
 {
     [Header("Health")]
     public float baseHealth;
-    public float maxHealth;
     public float healthMod;
-
     public float MaxHealth { get => baseHealth + healthMod; }
 
     [Header("Mana")]
     public float baseMana;
-    public float maxMana;
     public float manaMod;
-    public float Mana { get => baseMana + manaMod; }
+    public float MaxMana { get => baseMana + manaMod; }
+
+    [Header("Healing")]
+    public float baseHealing;
+    public float maxHealing;
+    public float healingMod;
+    public float Healing { get => baseHealing + healingMod; }
+
+    [Header("Healing Cost")]
+    public float healingManaCostBase;
+    public float minHealingCost;
+    public float healingManaCostMod;
+    public float HealingCost { get => healingManaCostBase + healingManaCostMod; }
 
     [Header("Speed")]
     public float baseSpeed;
@@ -25,8 +34,16 @@ public class PlayerAbilityDataSO : ScriptableObject
     public float Speed { get => baseSpeed + speedMod; }
 
     public float dashSpeedMod;
+
+    [Header("Launch Speed")]
+    public float launchSpeedBase;
     public float launchSpeedMod;
+    public float LaunchSpeed { get => launchSpeedBase + launchSpeedMod; }
+
+    [Header("Launch Damage")]
+    public float launchDamageBase;
     public float launchDamageMod;
+    public float LaunchDamage { get => launchDamageBase + launchDamageMod; }
 
     [Header("Abilities")]
     public bool hasDash;
@@ -37,7 +54,7 @@ public class PlayerAbilityDataSO : ScriptableObject
     public float damageMod;
 
     [Header("Currency")]
-    public float currency;
+    public int currency;
 
 
     private void OnEnable()
@@ -50,6 +67,16 @@ public class PlayerAbilityDataSO : ScriptableObject
         hasDash = false;
         hasHover = false;
         hasTelekenises = false;
+
+        speedMod = 0;
+        dashSpeedMod = 0;
+        launchSpeedMod = 0;
+        launchDamageMod = 0;
+        damageMod = 0;
+        healthMod = 0;
+        manaMod = 0;
+
+        currency = 0;
     }
 
     public void DashAbility() 
@@ -90,6 +117,11 @@ public class PlayerAbilityDataSO : ScriptableObject
     public void SetLaunchDamageMod(float modifier, int level)
     {
         launchDamageMod = modifier * level;
+    }
+
+    public void SetDamageMod(float modifier, int level)
+    {
+        damageMod = modifier * level;
     }
 
     public void SetDashSpeedMod(float modifier, int level)

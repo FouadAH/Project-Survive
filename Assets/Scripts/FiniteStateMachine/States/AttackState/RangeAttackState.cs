@@ -31,7 +31,7 @@ public class RangeAttackState : AttackState
             entity.MoveToTarget(direction);
         }
 
-        if (RangeCheck())
+        if (RangeCheck() && entity.isVisible)
         {
             entity.projectileController.LaunchProjectile(entity.runtimeData.playerPosition, entity.runtimeData.playerMotion);
         }

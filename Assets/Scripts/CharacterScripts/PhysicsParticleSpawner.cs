@@ -5,7 +5,9 @@ using UnityEngine;
 public class PhysicsParticleSpawner : MonoBehaviour
 {
     public GameObject spawnPrefab;
-    public float spawnAmount = 1;
+    public int spawnAmountMin = 1;
+    public int spawnAmountMax = 5;
+
     public float force = 3f;
 
     public Vector2 forceMinMax_X = new Vector2(0.3f, 1f);
@@ -16,7 +18,9 @@ public class PhysicsParticleSpawner : MonoBehaviour
     public void Spawn()
     {
         Debug.Log("Spawn particles");
-        for (int i = 0; i < spawnAmount; i++)
+        int randomAmount = (int)Random.Range(spawnAmountMin, spawnAmountMax);
+
+        for (int i = 0; i < randomAmount; i++)
         {
             var shell = Instantiate(spawnPrefab, transform.position, Quaternion.identity);
             //shell.transform.forward = spawnTransform.right;

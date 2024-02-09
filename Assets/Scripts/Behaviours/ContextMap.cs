@@ -11,7 +11,7 @@ public class ContextMap : MonoBehaviour
     public CoordinateSpace space;
     public float lowestDangerThreshold = 0.1f;
 
-    private float[] headingWeights;
+    //private float[] headingWeights;
 
     private float[] interestMap;
     private float[] dangerMap;
@@ -30,12 +30,12 @@ public class ContextMap : MonoBehaviour
     List<int> slotsToMask = new List<int>();
 
     const float TOTAL_ANGLE = 360;
-
+    float delta;
     private void Start()
     {
         behaviours = GetComponents<BehaviourBase>();
 
-        headingWeights = new float[resolution];
+        //headingWeights = new float[resolution];
         interestMap = new float[resolution];
         dangerMap = new float[resolution];
 
@@ -47,10 +47,10 @@ public class ContextMap : MonoBehaviour
 
     public Vector3 CalculateMovementDirection()
     {
-        float delta = TOTAL_ANGLE / resolution;
-        for (int i = 0; i < headingWeights.Length; i++)
+        delta = TOTAL_ANGLE / resolution;
+        for (int i = 0; i < headings.Length; i++)
         {
-            headingWeights[i] = Mathf.Clamp(headingWeights[i], 0, 1);
+            //headingWeights[i] = Mathf.Clamp(headingWeights[i], 0, 1);
             Vector3 direction = Vector3.zero;
             switch (space)
             {
@@ -85,8 +85,7 @@ public class ContextMap : MonoBehaviour
             {
                 for (int j = 0; j < interestMap.Length; j++)
                 {
-                    float max = Mathf.Max(newIntrestMap[j], newIntrestMapTemp[j]);
-                    newIntrestMap[j] = max;
+                    newIntrestMap[j] = Mathf.Max(newIntrestMap[j], newIntrestMapTemp[j]);
                 }
             }
 
@@ -94,8 +93,7 @@ public class ContextMap : MonoBehaviour
             {
                 for (int j = 0; j < dangerMap.Length; j++)
                 {
-                    float max = Mathf.Max(newDangerMap[j], newDangerMapTemp[j]);
-                    newDangerMap[j] = max;
+                    newDangerMap[j] = Mathf.Max(newDangerMap[j], newDangerMapTemp[j]);
                 }
             }
         }
@@ -121,17 +119,6 @@ public class ContextMap : MonoBehaviour
             }
         }
 
-        foreach (int index in slotsToMask)
-        {
-            interestMap[index] = 0;
-            newIntrestMap[index] = 0;
-        }
-
-        //for (int i = 0; i < interestMap.Length; i++)
-        //{
-        //    Debug.Log("newIntrestMap after" + newIntrestMap[i]);
-        //}
-
         for (int i = 0; i < interestMap.Length; i++)
         {
             interestMap[i] = Mathf.Lerp(interestMap[i], newIntrestMap[i], lerpTime);
@@ -141,7 +128,6 @@ public class ContextMap : MonoBehaviour
         {
             dangerMap[i] = Mathf.Lerp(dangerMap[i], newDangerMap[i], lerpTime);
         }
-
 
 
         float highestIntrest = 0;
@@ -156,14 +142,12 @@ public class ContextMap : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < headingWeights.Length; i++)
-        {
-            headingWeights[i] = interestMap[i];
-        }
 
-        for (int i = 0; i < headingWeights.Length; i++)
+        for (int i = 0; i < headings.Length; i++)
         {
-            headingWeights[i] = Mathf.Clamp(headingWeights[i], 0, 1);
+            //headingWeights[i] = interestMap[i];
+
+            //headingWeights[i] = Mathf.Clamp(headingWeights[i], 0, 1);
 
             Vector3 direction = Vector3.zero;
             switch (space)
@@ -176,30 +160,30 @@ public class ContextMap : MonoBehaviour
                     break;
             }
 
-            Color color = Color.white;
+            //Color color = Color.white;
 
             if (slotsToMask.Contains(i))
             {
-                color = Color.red;
+                //color = Color.red;
                 direction *= dangerMap[i];
             }
             else
             {
-                color = Color.green;
+                //color = Color.green;
                 direction *= interestMap[i];
             }
 
-            //color = Color.green;
-            //direction *= interestMap[i];
+            ////color = Color.green;
+            ////direction *= interestMap[i];
 
-            if (i == highestIntrestIndex)
-            {
-                color = Color.blue;
-            }
+            //if (i == highestIntrestIndex)
+            //{
+            //    color = Color.blue;
+            //}
 
             headings[i] = direction;
 
-            Debug.DrawRay(transform.position, direction, color);
+            //Debug.DrawRay(transform.position, direction, color);
         }
 
         if (highestIntrestIndex == -1)

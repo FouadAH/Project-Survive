@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0494cbee075ad48855b9f49744c7e3, type: 3}
   m_Name: SpiderMenace_EntityData
   m_EditorClassIdentifier: 
-  moveSpeed: 8
-  turnSpeed: 5
+  moveSpeed: 13
+  turnSpeed: 2
   velocitySmoothing: 0.1
-  maxHealth: 500
-  minAggroRange: 69.7
-  maxAggroRange: 200.5
-  attackRange: 22.5
+  maxHealth: 650
+  minAggroRange: 77.6
+  maxAggroRange: 177.3
+  attackRangeMin: 20.7
+  attackRangeMax: 23.7
   playerMask:
     serializedVersion: 2
     m_Bits: 128

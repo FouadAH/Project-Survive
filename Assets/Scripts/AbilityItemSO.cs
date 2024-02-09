@@ -19,6 +19,8 @@ public class AbilityItemSO : ScriptableObject
     public int baseCost = 100;
 
     public List<AbilityEvent> modifiers;
+    public List<AbilityItemSO> prereq;
+
 
     public int FinalCost { get => baseCost * level; }
 

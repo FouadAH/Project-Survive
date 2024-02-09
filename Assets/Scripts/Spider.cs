@@ -10,6 +10,8 @@ public class Spider : MonoBehaviour
     public Transform spiderController;
 
     public Transform spiderBody;
+    public Transform spiderModelBody;
+
     public Transform orientation;
 
     [Header("Leg Settings")]
@@ -102,7 +104,11 @@ public class Spider : MonoBehaviour
     void LegIK()
     {
         velocity = transform.position - lastBodyPosition;
-
+        if (Mathf.Abs(velocity.magnitude) <= 0.05f)
+        {
+            return;
+        }
+     
         float time = Time.deltaTime;
         Vector3 castDirection = -transform.up;
 
@@ -129,6 +135,7 @@ public class Spider : MonoBehaviour
             //Check if should move foot, then move it
             if (indexToMove != -1 && legState[indexToMove] == false)
             {
+                
                 float distance = Vector3.ProjectOnPlane((legTargetPoints[i].position) - lastLegPositions[i], Vector3.up).magnitude;
                 if (distance > stepSize || velocity.magnitude > 0.01f)
                 {
@@ -168,6 +175,8 @@ public class Spider : MonoBehaviour
     {
         CalculateAverageHeight();
         CalculateNormal();
+
+        //spiderModelBody.position = Vector3.Lerp(spiderModelBody.position, new Vector3((float)spiderController.position.x, averageLegHeight + 5, (float)spiderController.position.z), 1f / (float)(smoothness + 1));
 
         orientation.position = new Vector3((float)spiderController.position.x, averageLegHeight, (float)spiderController.position.z);
         spiderBody.position = Vector3.Lerp(spiderBody.position, new Vector3(spiderController.position.x, averageLegHeight, spiderController.position.z), 1f / (float)(smoothness + 1));

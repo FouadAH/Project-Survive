@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74e5dbe1507887446886c7c1262cd649, type: 3}
   m_Name: HandgunData
   m_EditorClassIdentifier: 
-  baseDamage: 25
-  bulletPrefab: {fileID: 5897591621347321865, guid: 30adc3aba7224c54aabab670004e92d4, type: 3}
+  baseDamage: 20
+  bulletPrefab: {fileID: 6460015209918131088, guid: 30adc3aba7224c54aabab670004e92d4, type: 3}
   maxBulletCount: 10
   bulletFiredPerShot: 1
   randomSpreadRate: 0
-  reloadRate: 0.2
+  reloadRate: 0.35
   reloadWaitTime: 0.8
   recoilTimeStart: 0.1
   recoilTimeEnd: 0.3
@@ -30,4 +30,5 @@ MonoBehaviour:
   canAutoFire: 0
   isConeCast: 0
   fireRate: 0
-  isAvailable: 1
+  isAvailable: 0
+  color: {r: 0.6510811, g: 1, b: 0.49685526, a: 1}

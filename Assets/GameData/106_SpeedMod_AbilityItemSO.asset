@@ -18,9 +18,9 @@ MonoBehaviour:
   hasObtainedAbility: 0
   isUnique: 0
   level: 1
-  baseModifier: 3
+  baseModifier: 1.5
   weight: 10
-  baseCost: 5
+  baseCost: 35
   modifiers:
   - m_PersistentCalls:
       m_Calls:

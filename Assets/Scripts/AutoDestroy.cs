@@ -5,6 +5,7 @@ using UnityEngine;
 public class AutoDestroy : MonoBehaviour
 {
     public float destroyTime = 1f;
+
     private void Start()
     {
         StartCoroutine(AutoDestroyRoutine());

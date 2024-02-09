@@ -62,11 +62,15 @@ public class Entity : EntityBase
     public FiniteStateMachine stateMachine;
     public CharacterMovement characterMovement { get; private set; }
     public PhysicsParticleSpawner particleSpawner;
+    public PhysicsParticleSpawner particleSpawner_currency;
 
     public Vector2 spawnPosition { get; private set; }
+    public bool isVisible;
+    public bool canMove = true;
 
     public virtual void Start()
     {
+        canMove = true;
         health = entityData.maxHealth;
         spawnPosition = transform.position;
 
@@ -100,7 +104,14 @@ public class Entity : EntityBase
 
     public virtual void Update()
     {
-        inputProvider.OnMove(CalculateMovementDirection());
+        if (canMove)
+        {
+            inputProvider.OnMove(CalculateMovementDirection());
+        }
+        else
+        {
+            inputProvider.OnMove(Vector3.zero);
+        }
 
         if (displayText)
         {
@@ -151,6 +162,7 @@ public class Entity : EntityBase
 
         EntityManager.Instance.RemoveEntity(this);
         particleSpawner.Spawn();
+        particleSpawner_currency.Spawn();
     }
     public Vector3 CalculateMovementDirection()
     {
@@ -232,5 +244,21 @@ public class Entity : EntityBase
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, entityData.maxAggroRange);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(playerChecker.position, entityData.attackRangeMin);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(playerChecker.position, entityData.attackRangeMax);
+    }
+
+    private void OnBecameVisible()
+    {
+        isVisible = true;
+    }
+
+    private void OnBecameInvisible()
+    {
+        isVisible = false;
     }
 }

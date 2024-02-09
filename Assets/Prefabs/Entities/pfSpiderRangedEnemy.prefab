@@ -780,9 +780,37 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3816939357594931894, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
+      propertyPath: randomOffsetX.x
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3816939357594931894, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
+      propertyPath: randomOffsetX.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3816939357594931894, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
+      propertyPath: randomOffsetY.x
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3816939357594931894, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
+      propertyPath: randomOffsetY.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3816939357594931894, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
+      propertyPath: randomOffsetZ.x
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3816939357594931894, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
+      propertyPath: randomOffsetZ.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3816939357594931894, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
       propertyPath: projectilePrefab
       value: 
       objectReference: {fileID: -2438600726409389582, guid: 00e9f536b12ff99449732be5f02e77b8, type: 3}
+    - target: {fileID: 3816939357594931894, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
+      propertyPath: targetMotionStrength
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 3819644292976774765, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -922,6 +950,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3e5e2f56d5c6a24f942e50404ebdcac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4497712735752675855 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6459218579663288950, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
+  m_PrefabInstance: {fileID: 7478461327215106169}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8777455077222563555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3e5e2f56d5c6a24f942e50404ebdcac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &5387780365272064534 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3246507393612954223, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
@@ -988,3 +1027,5 @@ MonoBehaviour:
   canvas: {fileID: 153495178825770727}
   lookAtPlayer: 0
   particleSpawner: {fileID: 1959614470987768655}
+  particleSpawner_currency: {fileID: 4497712735752675855}
+  isVisible: 0

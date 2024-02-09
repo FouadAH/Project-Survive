@@ -10,6 +10,8 @@ public class AbilityManager : MonoBehaviour
     public const int MAX_LEVEL = 5;
     public static AbilityManager instance;
     public List<AbilityItemSO> abilityItems;
+    public List<AbilityItemSO> abilitiesGained = new List<AbilityItemSO>();
+
     public WeaponSwitchController weaponSwitchController;
     public PlayerAbilityDataSO playerAbilityDataSO;
     public GunDataSO shotgun;
@@ -24,6 +26,7 @@ public class AbilityManager : MonoBehaviour
         {
             instance = this;
             _random = new System.Random();
+            abilitiesGained = new List<AbilityItemSO>();
         }
 
         gun.isAvailable = true;
@@ -34,7 +37,13 @@ public class AbilityManager : MonoBehaviour
     {
         //int random = Random.Range(0, abilityItems.Count);
         List<AbilityItemSO> abilities = new List<AbilityItemSO>();
-        var abilitiesList = abilityItems.Where((ability) => !(ability.isUnique && ability.hasObtainedAbility) && ability.level < MAX_LEVEL);
+
+        var abilitiesList = abilityItems.Where((ability) => 
+            !(ability.isUnique && ability.hasObtainedAbility) 
+            && ability.level < MAX_LEVEL 
+            && abilitiesGained.Intersect(ability.prereq).ToList().Count >= ability.prereq.Count
+        );
+
         for (int i = 0; i < abilityCount; i++)
         {
             if (abilitiesList.Except(abilities).ToArray().Length > 0)
@@ -63,6 +72,7 @@ public class AbilityManager : MonoBehaviour
     }
     public void OnReceivedAbility(AbilityItemSO abilityItemSO)
     {
+        abilitiesGained.Add(abilityItemSO);
         abilityItemSO.level++;
         abilityItemSO.hasObtainedAbility = true;
         playerAbilityDataSO.currency -= abilityItemSO.FinalCost;

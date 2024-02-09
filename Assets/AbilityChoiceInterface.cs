@@ -9,8 +9,10 @@ public class AbilityChoiceInterface : MonoBehaviour
     public AbilityItem abilityItem;
     public Transform content;
     public int abilityCount = 3;
+    public PlayerInput playerInput;
     private void OnEnable()
     {
+        playerInput.currentActionMap.Disable();
         Time.timeScale = Mathf.Epsilon;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
@@ -25,6 +27,8 @@ public class AbilityChoiceInterface : MonoBehaviour
         Time.timeScale = 1;
 
         waveManager.StartWave();
+        playerInput.currentActionMap.Enable();
+
     }
 
     void GetRandomAbilities()
@@ -43,7 +47,7 @@ public class AbilityChoiceInterface : MonoBehaviour
             {
                 var abilityItemUI = Instantiate(abilityItem, content);
                 abilityItemUI.Init(abilityData);
-                abilityItemUI.button.onClick.AddListener(() =>
+                abilityItemUI.OnReceived = (() =>
                 {
                     gameObject.SetActive(false);
                 });

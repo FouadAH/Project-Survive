@@ -183,13 +183,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2a9c25e140b29d4bbdcfd9165cd5f9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageAmount: 10
+  playerAbilityData: {fileID: 11400000, guid: 9e0b618696e4af041b98b1a0591da472, type: 2}
+  damageMod: 1
   damageableMask:
     serializedVersion: 2
     m_Bits: 1024
   checkDamageTrigger: 0
   isPiercing: 0
-  launchSpeed: 75
   launchDistance: 4
   launchDuration: 0.3
   launchableNoCollision:

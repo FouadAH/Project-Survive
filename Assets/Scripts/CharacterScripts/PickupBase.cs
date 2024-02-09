@@ -5,8 +5,11 @@ using UnityEngine;
 public class PickupBase : MonoBehaviour
 {
     public LayerMask playerMask;
+    public virtual void OnPickUp(PlayerDamageController damageController) { }
 
-    public virtual void OnPickUp(DamageController damageController) { }
+    public virtual void Update()
+    {
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -14,7 +17,7 @@ public class PickupBase : MonoBehaviour
         {
             if(Utility.IsInLayerMask(playerMask, other.gameObject.layer))
             {
-                DamageController damageController = other.GetComponent<DamageController>();
+                PlayerDamageController damageController = other.GetComponent<PlayerDamageController>();
                 OnPickUp(damageController);
             }
         }

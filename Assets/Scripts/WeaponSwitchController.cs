@@ -1,8 +1,10 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class WeaponSwitchController : MonoBehaviour
 {
@@ -10,9 +12,12 @@ public class WeaponSwitchController : MonoBehaviour
 
     public List<GunItem> gunItems = new List<GunItem>();
     public List<GunItem> availableGunItems = new List<GunItem>();
+    public List<GameObject> gunUIs = new List<GameObject>();
 
     public GunItem currentItem;
-    
+    public CircleLayout circleLayout;
+    public GameObject gunUIItem;
+
     private int currentIndex;
 
     private void Start()
@@ -36,6 +41,18 @@ public class WeaponSwitchController : MonoBehaviour
     public void InitList()
     {
         availableGunItems = gunItems.Where((gun) => gun.gunDataSO.isAvailable == true).ToList();
+
+        foreach (Transform item in circleLayout.transform)
+        {
+            Destroy(item.gameObject);
+        }
+        gunUIs.Clear();
+        foreach (var gunItem in availableGunItems)
+        {
+            var item =Instantiate(gunUIItem, circleLayout.transform);
+            item.GetComponent<Image>().color = gunItem.gunDataSO.color;
+            gunUIs.Add(item);
+        }
     }
     public void OnSwitch(InputAction.CallbackContext context)
     {
@@ -48,7 +65,7 @@ public class WeaponSwitchController : MonoBehaviour
 
     public void Switch(bool down)
     {
-        currentIndex = (down) ? (currentIndex + 1) % availableGunItems.Count : Mathf.Abs(currentIndex - 1) % availableGunItems.Count;
+        currentIndex = (down) ? Mathf.Abs(currentIndex + 1) % availableGunItems.Count : Mathf.Abs((currentIndex - 1) % availableGunItems.Count);
 
         if (currentItem.gunDataSO.isAvailable)
         {
@@ -59,5 +76,12 @@ public class WeaponSwitchController : MonoBehaviour
         {
             Switch(down);
         }
+
+        foreach (Transform item in circleLayout.transform)
+        {
+            item.localScale = Vector3.one;
+        }
+
+        gunUIs[currentIndex].transform.localScale = Vector3.one * 1.2f;
     }
 }

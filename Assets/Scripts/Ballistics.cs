@@ -192,9 +192,7 @@ public static class Ballistics
 
     public static float HeightFromDistance(float distance, float angle)
     {
-        var num = distance * Mathf.Tan(angle);
-        var denom = 4;
-        return num/denom;
+        return (distance * Mathf.Tan(angle)) / 4;
     }
 
 }

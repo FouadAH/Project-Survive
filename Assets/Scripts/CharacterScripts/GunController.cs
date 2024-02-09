@@ -124,7 +124,7 @@ public class GunController : MonoBehaviour
 
             if (!gunItem.gunDataSO.isConeCast)
             {
-                var hit = Physics.Raycast(cameraPos, coneVector, out raycastHit, 100, demagableMask);
+                var hit = Physics.Raycast(cameraPos, coneVector, out raycastHit, 300, demagableMask);
                 if (hit)
                 {
                     Vector3 decalSpawnPos = raycastHit.point;
@@ -145,7 +145,10 @@ public class GunController : MonoBehaviour
                 }
             }
 
-            var bullet = Instantiate(gunItem.gunDataSO.bulletPrefab, gunItem.bulletSpawnTransform.position + characterController.velocity * velocityMod, randomRot).GetComponent<BulletController>();
+            var bullet = ObjectPool.instance.Get(gunItem.gunDataSO.bulletPrefab).GetComponent<BulletController>();
+            bullet.transform.position = gunItem.bulletSpawnTransform.position + characterController.velocity * velocityMod;
+            bullet.transform.rotation = randomRot;
+            //Instantiate(gunItem.gunDataSO.bulletPrefab, gunItem.bulletSpawnTransform.position + characterController.velocity * velocityMod, randomRot).GetComponent<BulletController>();
 
             if (gunItem.gunDataSO.isConeCast)
             {
