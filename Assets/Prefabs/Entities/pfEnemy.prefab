@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 960538228328519316}
   - component: {fileID: 2113262773733269208}
   - component: {fileID: 8697329889246045696}
+  - component: {fileID: 2373702526089416010}
   - component: {fileID: 8852348395659278870}
   m_Layer: 10
   m_Name: pfEnemy
@@ -184,8 +185,22 @@ MonoBehaviour:
   projectileController: {fileID: 0}
   ragdoll: {fileID: 0}
   canvas: {fileID: 0}
-  lookAtPlayer: 0
+  staggerSlider: {fileID: 0}
   particleSpawner: {fileID: 0}
+  particleSpawner_currency: {fileID: 0}
+  staggeredPS: {fileID: 0}
+  lowHealthPS: {fileID: 0}
+  deathPS: {fileID: 0}
+  lookAtPlayer: 0
+  isVisible: 0
+  canMove: 1
+  isStaggered: 0
+  OnStaggerStart:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStaggerStop:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8021661331946080848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,6 +240,11 @@ MonoBehaviour:
   accelarationAirborne: 0.08
   orientation: {fileID: 6672820433382720853}
   isRigidbodyControl: 1
+  height: 0
+  groundCastDistance: 0
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &5423239581667997841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -341,6 +361,19 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   drawGizmos: 0
+--- !u!114 &2373702526089416010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7736473191686139857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2d5b5ebca596e840b967d70dc7b9f57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectMaterial: {fileID: 2100000, guid: 6a457f494edcb8c43a95cbcf8a36124b, type: 2}
 --- !u!54 &8852348395659278870
 Rigidbody:
   m_ObjectHideFlags: 0

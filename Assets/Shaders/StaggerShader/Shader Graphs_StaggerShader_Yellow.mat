@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_StaggerShader
+  m_Name: Shader Graphs_StaggerShader_Yellow
   m_Shader: {fileID: -6465566751694194690, guid: 933d759067a4c2840b31461a0e30a9da, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -49,12 +49,12 @@ Material:
     - _EffectSpeed: 1
     - _EffectStrength: 0
     - _Float: 4.38
-    - _Metallic: -0
-    - _NoiseScale: 2.88
+    - _Metallic: 0.33
+    - _NoiseScale: 2.54
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 0
-    - _Smoothness: 0.62
+    - _Smoothness: 0.42
     - _SrcBlend: 1
     - _Surface: 0
     - _WorkflowMode: 1
@@ -62,7 +62,7 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
-    - _BaseColor: {r: 0.3372549, g: 0.7803922, b: 0.75294125, a: 1}
+    - _BaseColor: {r: 1, g: 0.8013866, b: 0, a: 1}
     - _EffectColor: {r: 57.649105, g: 13.050759, b: 0, a: 1}
     - _Emission: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

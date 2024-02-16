@@ -57,7 +57,7 @@ public class WeaponController : MonoBehaviour
 
         var rotation = Quaternion.Euler(Camera.main.transform.rotation.eulerAngles.x, Camera.main.transform.rotation.eulerAngles.y, 0);
         weaponHolderPivot.rotation = Quaternion.Lerp(weaponHolderPivot.rotation, rotation, gunRotationSpeed);
-        //hips.rotation = weaponHolderPivot.rotation;
+        hips.rotation = Quaternion.Lerp(hips.rotation, rotation, gunRotationSpeed);
 
         if (cinemachineRecomposer == null)
         {

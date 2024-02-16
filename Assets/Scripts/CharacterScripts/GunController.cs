@@ -142,9 +142,9 @@ public class GunController : MonoBehaviour
                         weakSpot.DamageController.TakeDamage(damageSource.damageValue * playerAbilityDataSO.weakSpotdamageMod, -normal, 100);
                         crosshairController.AnimateCrosshair_HitWeakSpot();
                     }
-                    else if (raycastHit.collider.TryGetComponent<DamagableBase>(out var damagableBase))
+                    else if (raycastHit.collider.TryGetComponent<HitBox>(out var hitbox))
                     {
-                        damagableBase.TakeDamage(damageSource.damageValue, -normal, 100);
+                        hitbox.DamageController.TakeDamage(damageSource.damageValue, -normal, 100);
                         crosshairController.AnimateCrosshair_Hit();
                     }
 
