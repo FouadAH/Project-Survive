@@ -27,6 +27,7 @@ public class WaveManager : MonoBehaviour
 
     public float baseTimeMod;
     public float baseEntityCountMod;
+    public AnimationCurve entityCountCurve;
 
     public float baseSpawnerCurrencyMod;
 
@@ -75,44 +76,56 @@ public class WaveManager : MonoBehaviour
         abilityChoiceCanvas.gameObject.SetActive(true);
     }
 
-    IEnumerator ConstructSpawnQueueRoutine()
-    {
-        spawnQueue.Clear();
+    //IEnumerator ConstructSpawnQueueRoutine()
+    //{
+    //    spawnQueue.Clear();
 
-        spawnCurrency = baseSpawnCurrency + baseSpawnerCurrencyMod * currentWaveCount;
-        maxWaveEntityCount = maxWaveEntityCountBase + baseEntityCountMod * currentWaveCount;
+    //    spawnCurrency = baseSpawnCurrency + baseSpawnerCurrencyMod * currentWaveCount;
+    //    maxWaveEntityCount = maxWaveEntityCountBase + baseEntityCountMod * currentWaveCount;
+    //    spawnCount = 0;
 
-        while (spawnCount < maxWaveEntityCount)
-        {
-            EntitySpawnData spawnData = GetRandomItem(spawnDataList.spawnData, x => (int)(x.spawnWeight * 100f));
+    //    while (spawnCount < maxWaveEntityCount)
+    //    {
+    //        EntitySpawnData spawnData = GetRandomItem(spawnDataList.spawnData, x => (int)(x.spawnWeight * 100f));
 
-            if (spawnCurrency >= spawnData.spawnCost && spawnCount < maxWaveEntityCount)
-            {
-                spawnQueue.Enqueue(spawnData.entity);
-                spawnCurrency -= spawnData.spawnCost;
-                spawnCount++;
-                continue;
-            }
+    //        if (spawnCurrency >= spawnData.spawnCost && spawnCount < maxWaveEntityCount)
+    //        {
+    //            spawnQueue.Enqueue(spawnData.entity);
+    //            spawnCurrency -= spawnData.spawnCost;
+    //            spawnCount++;
+    //            continue;
+    //        }
 
-            if (spawnCurrency <= 0 || spawnCount < maxWaveEntityCount || EntityManager.Instance.entities.Count >= maxEntityCount)
-            {
-                break;
-            }
+    //        if (spawnCurrency <= 0 || spawnCount < maxWaveEntityCount || EntityManager.Instance.entities.Count >= maxEntityCount)
+    //        {
+    //            break;
+    //        }
 
-            yield return null;
-        }
+    //        yield return null;
+    //    }
 
-        yield return SpawnRoutine();
-    }
+    //    yield return SpawnRoutine();
+    //}
     IEnumerator SpawnRoutine()
     {
-        while (spawnQueue.Count > 0 && EntityManager.Instance.entities.Count < maxEntityCount)
+        maxWaveEntityCount = Mathf.Clamp((int)entityCountCurve.Evaluate(currentWaveCount), 0, maxEntityCount);
+        spawnCurrency = baseSpawnCurrency + baseSpawnerCurrencyMod * currentWaveCount;
+
+        while (true)
         {
-            int index = UnityEngine.Random.Range(0, spawnControllers.Length);
-            var spawner = spawnControllers[index];
-            spawner.Spawn(spawnQueue.Dequeue());
-            //Debug.Log(spawnTimeCurve.Evaluate(currentWaveCount));
-            yield return new WaitForSeconds(spawnTimeCurve.Evaluate(currentWaveCount));
+            bool canSpawn = EntityManager.Instance.entities.Count < maxWaveEntityCount;
+            if (canSpawn)
+            {
+                EntitySpawnData spawnData = GetRandomItem(spawnDataList.spawnData, x => (int)(x.spawnWeight * 100f));
+
+                int index = UnityEngine.Random.Range(0, spawnControllers.Length);
+                var spawner = spawnControllers[index];
+                spawner.Spawn(spawnData.entity);
+                //Debug.Log(spawnTimeCurve.Evaluate(currentWaveCount));
+            }
+
+            float spawnInterval = spawnTimeCurve.Evaluate(currentWaveCount);
+            yield return new WaitForSeconds(spawnInterval);
         }
     }
 
@@ -123,10 +136,7 @@ public class WaveManager : MonoBehaviour
         currentWaveCount++;
         currentWaveTime = waveTime + (baseTimeMod * currentWaveCount);
 
-        if (EntityManager.Instance.entities.Count < maxEntityCount)
-        {
-            StartCoroutine(ConstructSpawnQueueRoutine());
-        }
+        StartCoroutine(SpawnRoutine());
 
         while (currentWaveTime > 0)
         {

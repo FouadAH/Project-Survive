@@ -5,6 +5,7 @@ using UnityEngine;
 public class DamageArea : MonoBehaviour
 {
     public DamageSource damageSource;
+    public DamageType damageType;
     public LayerMask damageMask;
 
     private void OnTriggerEnter(Collider other)
@@ -18,7 +19,7 @@ public class DamageArea : MonoBehaviour
             Vector3 direction = damageable.transform.position - transform.position;
             float distance = Mathf.Clamp(direction.magnitude, 0f, 20f);
             distance = Utility.Remap(distance, 0f, 20f, 3f, 1f);
-            damageable.TakeDamage(damageSource.damageValue * distance, direction, 100);
+            damageable.TakeDamage(damageSource.damageValue * distance, direction, 100, damageType);
         }
     }
 }

@@ -40,13 +40,13 @@ public class DamageController : DamagableBase
         }
     }
    
-    public override void TakeDamage(float damageValue, Vector3 normal, float force = 1)
+    public override void TakeDamage(float damageValue, Vector3 normal, float force = 1, DamageType damageType = DamageType.Range)
     {
         if (rb != null)
         {
             rb.AddForce(normal.normalized * damageValue * forceMod, ForceMode.Impulse);
         }
 
-        base.TakeDamage(damageValue, normal, force);
+        base.TakeDamage(damageValue, normal, force, damageType);
     }
 }

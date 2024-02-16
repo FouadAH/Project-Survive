@@ -11,8 +11,12 @@ public class AbilityItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     [Header("Data")]
     public PlayerAbilityDataSO playerData;
     public AbilityItemSO abilityItemSO;
+    public LevelColorsSO LevelColorsSO;
 
     [Header("UI Elements")]
+    public Image panelImage;
+    public Image borderImage;
+
     public Button button;
     public TMPro.TMP_Text abilityName;
     public TMPro.TMP_Text abilityLevelText;
@@ -79,6 +83,14 @@ public class AbilityItem : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         abilityDescription.text = abilityItemSO.abilityDescription;
 
         button.interactable = playerData.currency >= abilityItemSO.FinalCost;
+        panelImage.color = LevelColorsSO.colors[abilityItemSO.level];
+        borderImage.color = LevelColorsSO.colors[abilityItemSO.level];
+
+        if (abilityItemSO.isUnique)
+        {
+            panelImage.color = LevelColorsSO.colors[LevelColorsSO.colors.Count - 1];
+            borderImage.color = LevelColorsSO.colors[LevelColorsSO.colors.Count - 1];
+        }
     }
 
     public void OnClick()

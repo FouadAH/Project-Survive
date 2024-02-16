@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 101f529c4d9329e43850e24cd0aeeaf3, type: 3}
+  m_Name: LevelColorsSO
+  m_EditorClassIdentifier: 
+  colors:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.6541717, g: 1, b: 0.35534585, a: 1}
+  - {r: 0.25157225, g: 0.35997006, b: 1, a: 1}
+  - {r: 0.576585, g: 0.14779866, b: 1, a: 1}
+  - {r: 1, g: 0.8872205, b: 0.13836467, a: 1}

@@ -58,6 +58,18 @@ public class PlayerInputController : MonoBehaviour
         }
     }
 
+    public void OnKick(InputAction.CallbackContext context)
+    {
+        switch (context.phase)
+        {
+            case InputActionPhase.Started:
+
+                inputProvider.OnKick();
+
+                break;
+        }
+    }
+
     public void OnJump(InputAction.CallbackContext context)
     {
         switch (context.phase)

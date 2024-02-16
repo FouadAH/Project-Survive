@@ -15,12 +15,12 @@ MonoBehaviour:
   abilityID: 107
   abilityName: Damage
   abilityDescription: Boost you base damage.
-  hasObtainedAbility: 0
+  hasObtainedAbility: 1
   isUnique: 0
-  level: 1
-  baseModifier: 10
-  weight: 10
-  baseCost: 35
+  level: 2
+  baseModifier: 3
+  weight: 15
+  baseCost: 50
   modifiers:
   - m_PersistentCalls:
       m_Calls:

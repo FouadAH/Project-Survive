@@ -34,4 +34,24 @@ public class PhysicsParticleSpawner : MonoBehaviour
             //shell.GetComponent<Rigidbody>().AddRelativeForce(velocity, ForceMode.Acceleration);
         }
     }
+
+    public void Spawn(int spawnAmountMin, int spawnAmountMax)
+    {
+        Debug.Log("Spawn particles");
+        int randomAmount = (int)Random.Range(spawnAmountMin, spawnAmountMax);
+
+        for (int i = 0; i < randomAmount; i++)
+        {
+            var shell = Instantiate(spawnPrefab, transform.position, Quaternion.identity);
+            //shell.transform.forward = spawnTransform.right;
+            float randomX = Random.Range(forceMinMax_X.x, forceMinMax_X.y);
+            float randomY = Random.Range(forceMinMax_Y.x, forceMinMax_Y.y);
+            float randomZ = Random.Range(forceMinMax_Z.x, forceMinMax_Z.y);
+
+            Vector3 randomDir = new Vector3(randomX, randomY, randomZ);
+            //Debug.Log(randomDir);
+            shell.GetComponent<Rigidbody>().AddForce(randomDir * force, ForceMode.Impulse);
+            //shell.GetComponent<Rigidbody>().AddRelativeForce(velocity, ForceMode.Acceleration);
+        }
+    }
 }

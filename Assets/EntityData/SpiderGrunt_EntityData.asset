@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e0494cbee075ad48855b9f49744c7e3, type: 3}
   m_Name: SpiderGrunt_EntityData
   m_EditorClassIdentifier: 
-  moveSpeed: 18
+  moveSpeed: 25
   turnSpeed: 5
   velocitySmoothing: 0.1
   maxHealth: 80
@@ -20,6 +20,10 @@ MonoBehaviour:
   maxAggroRange: 200.5
   attackRangeMin: 0
   attackRangeMax: 0
+  staggerAmountThreshold: 50
+  staggerGainPerHit: 15
+  staggerRecoveryRate: 0.1
+  staggerTime: 3
   playerMask:
     serializedVersion: 2
     m_Bits: 128

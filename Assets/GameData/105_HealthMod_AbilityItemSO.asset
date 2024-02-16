@@ -19,7 +19,7 @@ MonoBehaviour:
   isUnique: 0
   level: 1
   baseModifier: 10
-  weight: 10
+  weight: 50
   baseCost: 35
   modifiers:
   - m_PersistentCalls:
@@ -36,3 +36,4 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  prereq: []

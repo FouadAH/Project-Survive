@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.Events;
 
 public class GunController : MonoBehaviour
 {
@@ -136,12 +137,17 @@ public class GunController : MonoBehaviour
                     //decal.transform.Rotate(decal.transform.forward, randomRotation);
                     decal.transform.parent = raycastHit.transform;
 
-                    DamagableBase damagableBase = raycastHit.collider.GetComponent<DamagableBase>();
-
-                    if (damagableBase != null)
+                    if (raycastHit.collider.TryGetComponent<WeakSpot>(out var weakSpot))
+                    {
+                        weakSpot.DamageController.TakeDamage(damageSource.damageValue * playerAbilityDataSO.weakSpotdamageMod, -normal, 100);
+                        crosshairController.AnimateCrosshair_HitWeakSpot();
+                    }
+                    else if (raycastHit.collider.TryGetComponent<DamagableBase>(out var damagableBase))
                     {
                         damagableBase.TakeDamage(damageSource.damageValue, -normal, 100);
+                        crosshairController.AnimateCrosshair_Hit();
                     }
+
                 }
             }
 

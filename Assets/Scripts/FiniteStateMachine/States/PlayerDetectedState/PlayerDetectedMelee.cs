@@ -12,7 +12,7 @@ public class PlayerDetectedMelee : PlayerDetectedState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-
+        entity.lookAtPlayer = true;
         //if (!entity.PlayerWithinRange_Max())
         //{
         //    entity.stateMachine.ChangeState(entity.idleState);

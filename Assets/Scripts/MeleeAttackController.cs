@@ -37,7 +37,7 @@ public class MeleeAttackController : MonoBehaviour
         var collider = Physics.OverlapSphere(transform.position, radius, mask);
         if(collider.Length > 0)
         {
-            collider[0].gameObject.GetComponent<DamagableBase>()?.TakeDamage(damage, Vector2.zero);
+            collider[0].gameObject.GetComponent<DamagableBase>()?.TakeDamage(damage, Vector2.zero, 1, DamageType.Melee);
         }
     }
 

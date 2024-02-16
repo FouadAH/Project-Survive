@@ -52,6 +52,7 @@ public class PlayerAbilityDataSO : ScriptableObject
 
     [Header("Damage")]
     public float damageMod;
+    public float weakSpotdamageMod;
 
     [Header("Currency")]
     public int currency;

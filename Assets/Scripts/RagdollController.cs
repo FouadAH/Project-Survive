@@ -16,7 +16,7 @@ public class RagdollController : DamagableBase
         transform.parent.gameObject.AddComponent<AutoDestroy>().destroyTime = 3f;
     }
 
-    public override void TakeDamage(float damageValue, Vector3 normal, float force = 1)
+    public override void TakeDamage(float damageValue, Vector3 normal, float force = 1, DamageType damageType = DamageType.Range)
     {
         AddForce(normal, force, ForceMode.Impulse);
     }

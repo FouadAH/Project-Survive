@@ -10,6 +10,8 @@ public class WeaponController : MonoBehaviour
     public Animator animator;
 
     public Transform weaponHolderPivot;
+    public Transform hips;
+
     public Transform weaponAimTransform;
     public Transform weaponNormalTransform;
     [Range(0f, 1f)]
@@ -55,6 +57,7 @@ public class WeaponController : MonoBehaviour
 
         var rotation = Quaternion.Euler(Camera.main.transform.rotation.eulerAngles.x, Camera.main.transform.rotation.eulerAngles.y, 0);
         weaponHolderPivot.rotation = Quaternion.Lerp(weaponHolderPivot.rotation, rotation, gunRotationSpeed);
+        //hips.rotation = weaponHolderPivot.rotation;
 
         if (cinemachineRecomposer == null)
         {

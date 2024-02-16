@@ -833,6 +833,10 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 7eaeb73968e144040b801c43b3483c4e, type: 2}
     - target: {fileID: 4474698816981561818, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
       propertyPath: OnTakeDamage.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474698816981561818, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
+      propertyPath: OnTakeDamage.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4474698816981561818, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
@@ -848,8 +852,20 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4474698816981561818, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
+      propertyPath: OnTakeDamage.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnTakeDamage
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474698816981561818, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
       propertyPath: OnDeathEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: RangedEntity, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474698816981561818, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
+      propertyPath: OnTakeDamage.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Entity, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474698816981561818, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
+      propertyPath: OnTakeDamage.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4579024400577806265, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -859,6 +875,14 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 7eaeb73968e144040b801c43b3483c4e, type: 2}
+    - target: {fileID: 5570064163964305495, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.233
+      objectReference: {fileID: 0}
+    - target: {fileID: 5570064163964305495, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.63
+      objectReference: {fileID: 0}
     - target: {fileID: 6292617140162523886, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -950,6 +974,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3e5e2f56d5c6a24f942e50404ebdcac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!198 &2180340776124296529 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 8758081350744356136, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
+  m_PrefabInstance: {fileID: 7478461327215106169}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4497712735752675855 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6459218579663288950, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
@@ -966,9 +995,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3246507393612954223, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
   m_PrefabInstance: {fileID: 7478461327215106169}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5538842654872985813 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3104450156840057004, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
+  m_PrefabInstance: {fileID: 7478461327215106169}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8a7904ccf208ee42b4b85b39a8a70f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &5622796189452375143 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3008681231662287902, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
+  m_PrefabInstance: {fileID: 7478461327215106169}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &5803437380094781141 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3981506945275330220, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
   m_PrefabInstance: {fileID: 7478461327215106169}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &5855186019692781644 stripped
@@ -1025,7 +1070,13 @@ MonoBehaviour:
   projectileController: {fileID: 5994479031154657999}
   ragdoll: {fileID: 5855186019692781644}
   canvas: {fileID: 153495178825770727}
-  lookAtPlayer: 0
+  staggerSlider: {fileID: 5538842654872985813}
   particleSpawner: {fileID: 1959614470987768655}
   particleSpawner_currency: {fileID: 4497712735752675855}
+  staggeredPS: {fileID: 2180340776124296529}
+  lowHealthPS: {fileID: 5803437380094781141}
+  deathPS: {fileID: 0}
+  lookAtPlayer: 0
   isVisible: 0
+  canMove: 1
+  isStaggered: 0

@@ -20,6 +20,10 @@ MonoBehaviour:
   maxAggroRange: 207.5
   attackRangeMin: 120
   attackRangeMax: 80
+  staggerAmountThreshold: 65
+  staggerGainPerHit: 15
+  staggerRecoveryRate: 0.1
+  staggerTime: 3
   playerMask:
     serializedVersion: 2
     m_Bits: 128

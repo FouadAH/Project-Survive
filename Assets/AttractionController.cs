@@ -13,6 +13,6 @@ public class AttractionController : MonoBehaviour
             return;
 
         Vector3 target = new Vector3(playerRuntimeDataSO.playerPosition.x, playerRuntimeDataSO.playerPosition.y + 3f, playerRuntimeDataSO.playerPosition.z);
-        transform.position = Vector3.Lerp(transform.position, target, 0.3f);
+        transform.position = Vector3.Lerp(transform.position, target, 0.4f);
     }
 }

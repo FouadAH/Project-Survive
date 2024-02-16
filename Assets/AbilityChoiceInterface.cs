@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class AbilityChoiceInterface : MonoBehaviour
 {
     public WaveManager waveManager;
+    public PlayerAbilityDataSO PlayerAbilityDataSO;
     public AbilityItem abilityItem;
     public Transform content;
     public int abilityCount = 3;
@@ -57,5 +58,10 @@ public class AbilityChoiceInterface : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
+    }
+
+    public void OnSkip()
+    {
+        PlayerAbilityDataSO.currency += 30;
     }
 }

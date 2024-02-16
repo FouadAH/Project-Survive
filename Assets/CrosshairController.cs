@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CrosshairController : MonoBehaviour
 {
@@ -24,11 +25,41 @@ public class CrosshairController : MonoBehaviour
     [ContextMenu("Animate")]
     public void AnimateCrosshair()
     {
-        currentOffset = 16;
+        currentOffset = 12;
         circleLayout.transform.DOScale(Vector3.one * scaleTarget, scaleDuration).OnComplete(() =>
         {
             circleLayout.transform.DOScale(Vector3.one, scaleDuration);
             currentOffset = 9;
         });
+    }
+
+    public void AnimateCrosshair_Hit()
+    {
+        currentOffset = 15;
+        circleLayout.transform.DOScale(Vector3.one * scaleTarget, scaleDuration).OnComplete(() =>
+        {
+            circleLayout.transform.DOScale(Vector3.one, scaleDuration);
+            currentOffset = 9;
+        });
+    }
+
+    public void AnimateCrosshair_HitWeakSpot()
+    {
+        currentOffset = 20;
+        ColorCrosshair(Color.red);
+        circleLayout.transform.DOScale(Vector3.one * scaleTarget, scaleDuration).OnComplete(() =>
+        {
+            ColorCrosshair(Color.white);
+            circleLayout.transform.DOScale(Vector3.one, scaleDuration);
+            currentOffset = 9;
+        });
+    }
+
+    public void ColorCrosshair(Color color)
+    {
+        foreach(Transform crosshair in circleLayout.transform)
+        {
+            crosshair.GetComponent<Image>().color = color;
+        }
     }
 }

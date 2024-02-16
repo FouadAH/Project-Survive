@@ -14,9 +14,4 @@ public class EnemyController : Entity
         stateMachine.Initialize(idleState);
     }
 
-    public override void Update()
-    {
-        base.Update();
-    }
-
 }

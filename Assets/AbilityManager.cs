@@ -75,6 +75,7 @@ public class AbilityManager : MonoBehaviour
         abilitiesGained.Add(abilityItemSO);
         abilityItemSO.level++;
         abilityItemSO.hasObtainedAbility = true;
+        abilityItemSO.weight -= Mathf.Clamp(abilityItemSO.weight - 10 * abilityItemSO.level, 5, 100);
         playerAbilityDataSO.currency -= abilityItemSO.FinalCost;
         weaponSwitchController.InitList();
         //switch (abilityItemSO.abilityID) 

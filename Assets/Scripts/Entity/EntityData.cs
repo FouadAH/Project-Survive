@@ -16,6 +16,13 @@ public class EntityData : ScriptableObject
     public float attackRangeMin;
     public float attackRangeMax;
 
+    [Header("Stagger Settings")]
+    public float staggerAmountThreshold;
+
+    public float staggerGainPerHit;
+    public float staggerRecoveryRate;
+    public float staggerTime;
+
 
     public LayerMask playerMask;
     public LayerMask obstacleMask;

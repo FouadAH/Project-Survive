@@ -98,6 +98,15 @@ public partial class @PlayerMaster: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Kick"",
+                    ""type"": ""Button"",
+                    ""id"": ""50fe8def-a87c-41d6-ac32-bd7fde242090"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -254,6 +263,17 @@ public partial class @PlayerMaster: IInputActionCollection2, IDisposable
                     ""action"": ""Heal"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bb54db9a-6696-4547-b311-3b124d76c596"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Kick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -298,6 +318,7 @@ public partial class @PlayerMaster: IInputActionCollection2, IDisposable
         m_Player_Launch = m_Player.FindAction("Launch", throwIfNotFound: true);
         m_Player_Switch = m_Player.FindAction("Switch", throwIfNotFound: true);
         m_Player_Heal = m_Player.FindAction("Heal", throwIfNotFound: true);
+        m_Player_Kick = m_Player.FindAction("Kick", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Newaction = m_UI.FindAction("New action", throwIfNotFound: true);
@@ -370,6 +391,7 @@ public partial class @PlayerMaster: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Launch;
     private readonly InputAction m_Player_Switch;
     private readonly InputAction m_Player_Heal;
+    private readonly InputAction m_Player_Kick;
     public struct PlayerActions
     {
         private @PlayerMaster m_Wrapper;
@@ -382,6 +404,7 @@ public partial class @PlayerMaster: IInputActionCollection2, IDisposable
         public InputAction @Launch => m_Wrapper.m_Player_Launch;
         public InputAction @Switch => m_Wrapper.m_Player_Switch;
         public InputAction @Heal => m_Wrapper.m_Player_Heal;
+        public InputAction @Kick => m_Wrapper.m_Player_Kick;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -415,6 +438,9 @@ public partial class @PlayerMaster: IInputActionCollection2, IDisposable
             @Heal.started += instance.OnHeal;
             @Heal.performed += instance.OnHeal;
             @Heal.canceled += instance.OnHeal;
+            @Kick.started += instance.OnKick;
+            @Kick.performed += instance.OnKick;
+            @Kick.canceled += instance.OnKick;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -443,6 +469,9 @@ public partial class @PlayerMaster: IInputActionCollection2, IDisposable
             @Heal.started -= instance.OnHeal;
             @Heal.performed -= instance.OnHeal;
             @Heal.canceled -= instance.OnHeal;
+            @Kick.started -= instance.OnKick;
+            @Kick.performed -= instance.OnKick;
+            @Kick.canceled -= instance.OnKick;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -516,6 +545,7 @@ public partial class @PlayerMaster: IInputActionCollection2, IDisposable
         void OnLaunch(InputAction.CallbackContext context);
         void OnSwitch(InputAction.CallbackContext context);
         void OnHeal(InputAction.CallbackContext context);
+        void OnKick(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

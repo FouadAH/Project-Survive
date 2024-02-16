@@ -15,9 +15,15 @@ public class ParticleAttractor : MonoBehaviour
                 AttractionController attractionController = other.GetComponent<AttractionController>();
                 if(attractionController != null)
                 {
-                    attractionController.isAttracted = true;
+                    StartCoroutine(Delay(attractionController));
                 }
             }
         }
+    }
+
+    IEnumerator Delay(AttractionController attractionController)
+    {
+        yield return new WaitForSeconds(0.8f);
+        attractionController.isAttracted = true;
     }
 }

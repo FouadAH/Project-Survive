@@ -11,6 +11,7 @@ public class InputProvider : MonoBehaviour
     public UnityAction<Vector3> MoveEvent;
     public UnityAction JumpEvent;
     public UnityAction HealEvent;
+    public UnityAction KickEvent;
 
     public UnityAction StartHoverEvent;
     public UnityAction StopHoverEvent;
@@ -36,7 +37,10 @@ public class InputProvider : MonoBehaviour
     {
         HealEvent?.Invoke();
     }
-
+    public virtual void OnKick()
+    {
+        KickEvent?.Invoke();
+    }
     public virtual void OnDash()
     {
         DashEvent?.Invoke();
