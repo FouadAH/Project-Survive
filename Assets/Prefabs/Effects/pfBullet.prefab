@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 948901523226083993}
   - component: {fileID: 2049388088090441954}
   - component: {fileID: 6395492501229556776}
+  - component: {fileID: 6274218181250700580}
   m_Layer: 0
   m_Name: pfBullet
   m_TagString: Untagged
@@ -32,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 5897591621347321865}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: -0.136, z: 0}
-  m_LocalScale: {x: 0.2407985, y: 0.24496764, z: 0.49068218}
+  m_LocalScale: {x: 0.3307353, y: 0.33646157, z: 0.67394906}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -100,7 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5e51a13aad6d70449efe2c4477df051, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 180
+  speed: 100
   targetPos: {x: 0, y: 0, z: 0}
   moveInDirection: 0
   bulletDestroyEffect: {fileID: 1871239764208072289, guid: da32884f0dce69c4e92e4488458754ac, type: 3}
@@ -108,6 +109,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1088
   spawnTransform: {fileID: 0}
+  playerAbilityDataSO: {fileID: 11400000, guid: 9e0b618696e4af041b98b1a0591da472, type: 2}
 --- !u!114 &1262474011339023878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,3 +293,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6274218181250700580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5897591621347321865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b80094137b3ad5409ab33769fbd7ff9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageValue: 10

@@ -62,6 +62,7 @@ public class Entity : EntityBase
     public bool isVisible;
     public bool canMove = true;
     public bool isStaggered;
+    public bool isAggro = true;
 
     [Header("Stagger")]
     public UnityEvent OnStaggerStart;
@@ -117,7 +118,7 @@ public class Entity : EntityBase
         attackState = new AttackState(this, stateMachine, PlayerDetectedStateData);
         pulledState = new PulledState(this, stateMachine, PulledStateData);
         staggerState = new StaggerState(this, stateMachine);
-        stateMachine.Initialize(idleState);
+        stateMachine.Initialize(playerDetectedState);
 
         staggerSlider.SetMax(entityData.staggerAmountThreshold);
     }

@@ -19,7 +19,7 @@ public class PlayerDetectedState : State
 
         lastFireTime += Time.deltaTime;
 
-        if (!entity.PlayerWithinRange_Max())
+        if (!entity.PlayerWithinRange_Max() && entity.isAggro == false)
         {
             entity.stateMachine.ChangeState(entity.idleState);
         }

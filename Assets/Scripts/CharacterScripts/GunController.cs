@@ -32,7 +32,6 @@ public class GunController : MonoBehaviour
     public DamageSource damageSource;
     CharacterController characterController;
 
-
     private void Start()
     {
         gunItem.InitGun();
@@ -77,62 +76,43 @@ public class GunController : MonoBehaviour
         Vector3 direction = projection - cameraPos;
         Vector3 targetPos = direction.normalized * 100000f;
 
-        if (gunItem.gunDataSO.isConeCast)
+        if (gunItem.gunDataSO.isTripleShot)
         {
-            StartCoroutine(ConeCast());
-            crosshairController.AnimateCrosshair();
+            SpawnBullet(targetPos, Quaternion.Euler(0, 0, 0));
+            SpawnBullet(targetPos, Quaternion.Euler(0, 10f, 0));
+            SpawnBullet(targetPos, Quaternion.Euler(0f, -10f, 0));
+        }
+        else if (gunItem.gunDataSO.isPentaShot)
+        {
+            SpawnBullet(targetPos, Quaternion.Euler(0, 0, 0));
+            SpawnBullet(targetPos, Quaternion.Euler(0, 10f, 0));
+            SpawnBullet(targetPos, Quaternion.Euler(0f, -10f, 0));
+            SpawnBullet(targetPos, Quaternion.Euler(0, 0, -10));
+            SpawnBullet(targetPos, Quaternion.Euler(0f, 0f, 10));
         }
         else
         {
-            var hit = Physics.Raycast(cameraPos, Camera.main.transform.forward, out RaycastHit raycastHit, 300, demagableMask);
-            if (hit)
-            {
-                Vector3 normal = raycastHit.normal;
-                SpawnDecal(raycastHit.normal, raycastHit.point, raycastHit.transform);
-
-                if (raycastHit.collider.TryGetComponent<WeakSpot>(out var weakSpot))
-                {
-                    weakSpot.DamageController.TakeDamage(damageSource.damageValue * playerAbilityDataSO.weakSpotdamageMod, -normal, 100);
-                    crosshairController.AnimateCrosshair_HitWeakSpot();
-                }
-                else if (raycastHit.collider.TryGetComponent<HitBox>(out var hitbox))
-                {
-                    hitbox.DamageController.TakeDamage(damageSource.damageValue, -normal, 100);
-                    crosshairController.AnimateCrosshair_Hit();
-                }
-                else
-                {
-                    crosshairController.AnimateCrosshair();
-                }
-            }
-        }
-
-        for (int i = 0; i < gunItem.gunDataSO.bulletFiredPerShot; i++)
-        {
-            SpawnBullet(targetPos);
+            SpawnBullet(targetPos, Quaternion.Euler(0, 0, 0));
         }
 
         gunItem.OnFire();
     }
-
-    void SpawnBullet(Vector3 targetPosition)
+    void SpawnBullet(Vector3 targetPosition, Quaternion rotation)
     {
-        Quaternion randomRot = Quaternion.Euler(
-            Random.Range(-gunItem.gunDataSO.randomSpreadRate, gunItem.gunDataSO.randomSpreadRate),
-            Random.Range(-gunItem.gunDataSO.randomSpreadRate, gunItem.gunDataSO.randomSpreadRate),
-            Random.Range(-gunItem.gunDataSO.randomSpreadRate, gunItem.gunDataSO.randomSpreadRate)
-        );
-
-        Vector3 forwardVector = randomRot * Camera.main.transform.forward;
+        Vector3 forwardVector = rotation * Camera.main.transform.forward;
 
         var bullet = ObjectPool.instance.Get(gunItem.gunDataSO.bulletPrefab).GetComponent<BulletController>();
-        bullet.transform.position = gunItem.bulletSpawnTransform.position + characterController.velocity * velocityMod;
-        bullet.transform.rotation = randomRot;
 
-        if (gunItem.gunDataSO.isConeCast)
+        bullet.SetDamage(damageSource.damageValue);
+        bullet.OnDamage = () =>
         {
-            bullet.moveInDirection = true;
-        }
+            crosshairController.AnimateCrosshair_HitWeakSpot();
+        };
+
+        bullet.transform.position = gunItem.bulletSpawnTransform.position + characterController.velocity * velocityMod;
+        bullet.transform.rotation = rotation;
+
+        bullet.moveInDirection = true;
 
         bullet.transform.forward = forwardVector;
         bullet.targetPos = targetPosition;

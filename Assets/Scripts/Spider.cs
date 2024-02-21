@@ -78,7 +78,7 @@ public class Spider : MonoBehaviour
     int indexToMove = -1;
     RaycastHit hit;
 
-    private void Start()
+    private void Awake()
     {
         lastLegPositions = new Vector3[legCount];
         targetPosition = new Vector3[legCount];
@@ -93,6 +93,49 @@ public class Spider : MonoBehaviour
         }
 
         lastBodyUp = Vector3.up;
+
+        float time = Time.deltaTime;
+        Vector3 castDirection = -transform.up;
+
+        for (int i = 0; i < legTargetPoints.Length; i++)
+        {
+            var hit = LegRaycast(legTargetPoints[i].position, castDirection);
+            if (hit.collider)
+            {
+                hitPosition[i] = hit.point;
+                desiredPosition[i] = hit.point;
+                //desiredPosition[i] = new Vector3(legTargetPoints[i].position.x, hit.point.y, legTargetPoints[i].position.z);
+            }
+
+            targetPosition[i] = desiredPosition[i];
+
+            //Foot movement timing
+            footTimings[i] += time * (cycleSpeed * cycleSpeedModifier);
+            if (footTimings[i] >= cycleLimit + timingOf[i])
+            {
+                footTimings[i] = timingOf[i];
+                indexToMove = i;
+            }
+
+            //Check if should move foot, then move it
+            if (indexToMove != -1 && legState[indexToMove] == false)
+            {
+
+                float distance = Vector3.ProjectOnPlane((legTargetPoints[i].position) - lastLegPositions[i], Vector3.up).magnitude;
+                if (distance > stepSize || velocity.magnitude > 0.01f)
+                {
+                    StartCoroutine(PerformStep(indexToMove, targetPosition[indexToMove]));
+                }
+            }
+        }
+
+        for (int i = 0; i < legCount; ++i)
+        {
+            if (i != indexToMove)
+            {
+                legIKTargets[i].position = lastLegPositions[i];
+            }
+        }
     }
 
     void FixedUpdate()

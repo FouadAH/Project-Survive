@@ -11,7 +11,7 @@ public class EnemyController : Entity
         playerDetectedState = new PlayerDetectedMelee(this, stateMachine, PlayerDetectedStateData);
         attackState = new MeleeAttackState(this, stateMachine, PlayerDetectedStateData);
 
-        stateMachine.Initialize(idleState);
+        stateMachine.Initialize(playerDetectedState);
     }
 
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,10 +13,14 @@ public class BulletController : PooledObject
     public LayerMask obstacleMask;
 
     public Transform spawnTransform;
+    public PlayerAbilityDataSO playerAbilityDataSO;
 
+    public Action OnDamage;
     private Rigidbody rb;
     private MeshRenderer meshRenderer;
     private TrailRenderer trailRenderer;
+
+    private DamageSource damageSource;
 
     private Vector3 initialSpawn;
     private Vector3 velocityDirection;
@@ -28,6 +33,7 @@ public class BulletController : PooledObject
         rb = GetComponent<Rigidbody>();
         meshRenderer = GetComponent<MeshRenderer>();
         trailRenderer = GetComponent<TrailRenderer>();
+        damageSource = GetComponent<DamageSource>();
     }
 
     private void OnEnable()
@@ -60,18 +66,22 @@ public class BulletController : PooledObject
         }
     }
 
-    IEnumerator HitLock()
+    public void SetDamage(float damageValue)
+    {
+        damageSource.damageValue = damageValue;
+    }
+
+    private IEnumerator HitLock()
     {
         yield return new WaitForFixedUpdate();
         hitLock = false;
     }
 
-    IEnumerator MovementLock()
+    private IEnumerator MovementLock()
     {
         yield return new WaitForEndOfFrame();
+
         meshRenderer.enabled = true;
-        //velocityDirection = initialSpawn - spawnTransform.position;
-        //transform.position += velocityDirection;
         shouldMove = true;
         trailRenderer.enabled = true;
     }
@@ -85,6 +95,20 @@ public class BulletController : PooledObject
         {
             var bullet = Instantiate(bulletDestroyEffect, transform.position, Quaternion.identity);
             bullet.Play();
+
+            Vector3 normal = (transform.position - other.transform.position).normalized;
+            //SpawnDecal(raycastHit.normal, raycastHit.point, raycastHit.transform);
+
+            if (other.TryGetComponent<WeakSpot>(out var weakSpot))
+            {
+                weakSpot.DamageController.TakeDamage(damageSource.damageValue * playerAbilityDataSO.weakSpotdamageMod, -normal, 100);
+                OnDamage?.Invoke();
+            }
+            else if (other.TryGetComponent<HitBox>(out var hitbox))
+            {
+                hitbox.DamageController.TakeDamage(damageSource.damageValue, -normal, 100);
+                OnDamage?.Invoke();
+            }
 
             ReturnToPool();
         }

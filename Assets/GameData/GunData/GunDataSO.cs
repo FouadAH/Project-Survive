@@ -48,6 +48,8 @@ public class GunDataSO : ScriptableObject
 
     [Header("Data Settings")]
     public bool isAvailable;
+    public bool isTripleShot;
+    public bool isPentaShot;
 
     [Header("UI Settings")]
     public Color color = Color.white;

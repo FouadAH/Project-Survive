@@ -37,7 +37,7 @@ public class WaveManager : MonoBehaviour
     public TMPro.TMP_Text entityCountText;
 
     public CanvasGroup abilityChoiceCanvas;
-
+    public ShopController shopController;
     [Header("Debug Settings")]
     public bool debugMode;
 
@@ -74,38 +74,39 @@ public class WaveManager : MonoBehaviour
     public void EndWave()
     {
         abilityChoiceCanvas.gameObject.SetActive(true);
+        //shopController.InitShop();
     }
 
-    //IEnumerator ConstructSpawnQueueRoutine()
-    //{
-    //    spawnQueue.Clear();
+    IEnumerator ConstructSpawnQueueRoutine()
+    {
+        spawnQueue.Clear();
 
-    //    spawnCurrency = baseSpawnCurrency + baseSpawnerCurrencyMod * currentWaveCount;
-    //    maxWaveEntityCount = maxWaveEntityCountBase + baseEntityCountMod * currentWaveCount;
-    //    spawnCount = 0;
+        spawnCurrency = baseSpawnCurrency + baseSpawnerCurrencyMod * currentWaveCount;
+        maxWaveEntityCount = maxWaveEntityCountBase + baseEntityCountMod * currentWaveCount;
+        spawnCount = 0;
 
-    //    while (spawnCount < maxWaveEntityCount)
-    //    {
-    //        EntitySpawnData spawnData = GetRandomItem(spawnDataList.spawnData, x => (int)(x.spawnWeight * 100f));
+        while (spawnCount < maxWaveEntityCount)
+        {
+            EntitySpawnData spawnData = GetRandomItem(spawnDataList.spawnData, x => (int)(x.spawnWeight * 100f));
 
-    //        if (spawnCurrency >= spawnData.spawnCost && spawnCount < maxWaveEntityCount)
-    //        {
-    //            spawnQueue.Enqueue(spawnData.entity);
-    //            spawnCurrency -= spawnData.spawnCost;
-    //            spawnCount++;
-    //            continue;
-    //        }
+            if (spawnCurrency >= spawnData.spawnCost && spawnCount < maxWaveEntityCount)
+            {
+                spawnQueue.Enqueue(spawnData.entity);
+                spawnCurrency -= spawnData.spawnCost;
+                spawnCount++;
+                continue;
+            }
 
-    //        if (spawnCurrency <= 0 || spawnCount < maxWaveEntityCount || EntityManager.Instance.entities.Count >= maxEntityCount)
-    //        {
-    //            break;
-    //        }
+            if (spawnCurrency <= 0 || spawnCount < maxWaveEntityCount || EntityManager.Instance.entities.Count >= maxEntityCount)
+            {
+                break;
+            }
 
-    //        yield return null;
-    //    }
+            yield return null;
+        }
 
-    //    yield return SpawnRoutine();
-    //}
+        yield return SpawnRoutine();
+    }
     IEnumerator SpawnRoutine()
     {
         maxWaveEntityCount = Mathf.Clamp((int)entityCountCurve.Evaluate(currentWaveCount), 0, maxEntityCount);

@@ -13,6 +13,6 @@ public class FlamethrowerSpider : Entity
         playerDetectedState = new PlayerDetectedState(this, stateMachine, PlayerDetectedStateData);
         attackState = new FlamethrowerAttackState(this, stateMachine, PlayerDetectedStateData);
 
-        stateMachine.Initialize(idleState);
+        stateMachine.Initialize(playerDetectedState);
     }
 }

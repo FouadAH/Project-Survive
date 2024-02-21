@@ -36,7 +36,7 @@ public class FlamethrowerAttackState : AttackState
         if(attackCooldown < 0)
         {
             Debug.Log("end attack");
-            stateMachine.ChangeState(entity.idleState);
+            stateMachine.ChangeState(entity.playerDetectedState);
         }
     }
 

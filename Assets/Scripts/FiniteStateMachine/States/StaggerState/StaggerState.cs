@@ -35,7 +35,7 @@ public class StaggerState : State
 
         if (!entity.isStaggered)
         {
-            stateMachine.ChangeState(entity.idleState);
+            stateMachine.ChangeState(entity.playerDetectedState);
         }
     }
 }
