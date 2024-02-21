@@ -33,6 +33,7 @@ public class KickController : MonoBehaviour
         damageArea.gameObject.SetActive(true);
 
         yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
 
         damageArea.gameObject.SetActive(false);
     }

@@ -7,6 +7,7 @@ using UnityEngine.InputSystem.Interactions;
 
 public class WeaponController : MonoBehaviour
 {
+    public InputProvider inputProvider;
     public Animator animator;
 
     public Transform weaponHolderPivot;
@@ -48,8 +49,9 @@ public class WeaponController : MonoBehaviour
     }
     private void Update()
     {
-        targetPosition = (isAiming) ? weaponAimTransform.position : weaponNormalTransform.position;
 
+        targetPosition = (isAiming) ? weaponAimTransform.position : weaponNormalTransform.position;
+        inputProvider.isAiming = isAiming;
         gun.transform.position = Vector3.Lerp(gun.transform.position, targetPosition, 0.5f);
 
         currentRotation = Vector3.Lerp(currentRotation, targetRotation, 0.1f);

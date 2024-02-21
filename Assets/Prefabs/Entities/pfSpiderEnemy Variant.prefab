@@ -13979,6 +13979,9 @@ MonoBehaviour:
   OnTakeDamage:
     m_PersistentCalls:
       m_Calls: []
+  OnHeal:
+    m_PersistentCalls:
+      m_Calls: []
   body: {fileID: 119642667165297402}
 --- !u!114 &757550447002088555
 MonoBehaviour:
@@ -13997,6 +14000,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHeal:
     m_PersistentCalls:
       m_Calls: []
   forceMod: 0.1
@@ -24097,7 +24103,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1124149997536131994, guid: 58791f1ec729f444283679bdc0e86f5a, type: 3}
       propertyPath: OnStaggerStart.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_FloatArgument
-      value: 0.3
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1124149997536131994, guid: 58791f1ec729f444283679bdc0e86f5a, type: 3}
       propertyPath: OnStaggerStop.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName

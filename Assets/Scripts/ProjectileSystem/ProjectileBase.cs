@@ -5,9 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class ProjectileBase : PooledObject
 {
-    public float maxHeight = 60f;
-    public bool debugPath;
-
     protected Rigidbody projectileRigidbody;
     
     void Awake()

@@ -10,7 +10,9 @@ public class InputProvider : MonoBehaviour
 {
     public UnityAction<Vector3> MoveEvent;
     public UnityAction JumpEvent;
-    public UnityAction HealEvent;
+    public UnityAction HealEvent_Start;
+    public UnityAction HealEvent_Stop;
+
     public UnityAction KickEvent;
 
     public UnityAction StartHoverEvent;
@@ -19,6 +21,9 @@ public class InputProvider : MonoBehaviour
     public UnityAction DashEvent;
     public UnityAction StartSprintEvent;
     public UnityAction StopSprintEvent;
+
+    public bool isHealing;
+    public bool isAiming;
 
     public Vector3 movementVector { get; private set; }
 
@@ -33,9 +38,13 @@ public class InputProvider : MonoBehaviour
         JumpEvent?.Invoke();
     }
 
-    public virtual void OnHeal()
+    public virtual void OnHeal_Start()
     {
-        HealEvent?.Invoke();
+        HealEvent_Start?.Invoke();
+    }
+    public virtual void OnHeal_Stop()
+    {
+        HealEvent_Stop?.Invoke();
     }
     public virtual void OnKick()
     {

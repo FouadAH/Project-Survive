@@ -49,12 +49,12 @@ Material:
     - _EffectSpeed: 1
     - _EffectStrength: 0
     - _Float: 4.38
-    - _Metallic: -0
+    - _Metallic: 0.33
     - _NoiseScale: 2.88
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 0
-    - _Smoothness: 0.62
+    - _Smoothness: 0.48
     - _SrcBlend: 1
     - _Surface: 0
     - _WorkflowMode: 1
@@ -63,7 +63,7 @@ Material:
     - _ZWriteControl: 0
     m_Colors:
     - _BaseColor: {r: 0.3372549, g: 0.7803922, b: 0.75294125, a: 1}
-    - _EffectColor: {r: 57.649105, g: 13.050759, b: 0, a: 1}
+    - _EffectColor: {r: 95.87452, g: 26.852888, b: 0, a: 1}
     - _Emission: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &8369925512176107288

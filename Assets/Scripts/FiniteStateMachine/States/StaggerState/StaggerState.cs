@@ -25,7 +25,7 @@ public class StaggerState : State
         entity.canMove = true;
         if (entity.staggeredPS != null)
         {
-            entity.staggeredPS.Play();
+            entity.staggeredPS.Stop();
         }
     }
 

@@ -8,6 +8,9 @@ using UnityEngine.UIElements;
 
 public class ArcProjectile : ProjectileBase
 {
+    public float maxHeight = 60f;
+    public bool debugPath;
+
     public LayerMask hitMask;
     [Range(1f, 100f)]
     public float speedModifier;

@@ -22,7 +22,7 @@ MonoBehaviour:
   attackRangeMax: 23.7
   staggerAmountThreshold: 150
   staggerGainPerHit: 15
-  staggerRecoveryRate: 0.1
+  staggerRecoveryRate: 0.3
   staggerTime: 3
   playerMask:
     serializedVersion: 2

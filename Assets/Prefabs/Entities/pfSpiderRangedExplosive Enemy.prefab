@@ -1099,12 +1099,36 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3816939357594931894, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
+      propertyPath: randomOffsetX.x
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3816939357594931894, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
+      propertyPath: randomOffsetX.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3816939357594931894, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
+      propertyPath: randomOffsetY.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3816939357594931894, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
+      propertyPath: randomOffsetY.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3816939357594931894, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
+      propertyPath: randomOffsetZ.x
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3816939357594931894, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
+      propertyPath: randomOffsetZ.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3816939357594931894, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
       propertyPath: projectilePrefab
       value: 
       objectReference: {fileID: 5849836189164021263, guid: 4d641ef3d549e11419aa81691729546d, type: 3}
     - target: {fileID: 3816939357594931894, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
       propertyPath: projectileBurstCount
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3819644292976774765, guid: af782e6a73dd91a4f93f4fc3881daf38, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -1367,7 +1391,7 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 0.3
+          m_FloatArgument: 0.5
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2

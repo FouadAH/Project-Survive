@@ -12,6 +12,8 @@ public class CharacterMovement : MonoBehaviour
     [Header("Speed Settings")]
     public float moveSpeed = 3f;
     public float sprintSpeed = 18f;
+    public float healMovementSpeed = 18f;
+    public float aimMovementSpeed = 18f;
 
     float gravity = -3f;
 
@@ -147,6 +149,8 @@ public class CharacterMovement : MonoBehaviour
             this.moveDirection = inputProvider.movementVector;
 
             float speed = (isSprinting) ? sprintSpeed : moveSpeed;
+            speed = (inputProvider.isHealing) ? healMovementSpeed : speed;
+
             float acceleration = (characterController.isGrounded) ? accelarationGrounded : accelarationAirborne;
             float accelerationY = (isHovering) ? accelarationHovering : acceleration;
 

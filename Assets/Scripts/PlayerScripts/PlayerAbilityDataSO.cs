@@ -27,6 +27,11 @@ public class PlayerAbilityDataSO : ScriptableObject
     public float healingManaCostMod;
     public float HealingCost { get => healingManaCostBase + healingManaCostMod; }
 
+    [Header("Healing Speed")]
+    public float healingSpeedBase;
+    public float healingSpeedMod;
+    public float HealingSpeed{ get => healingSpeedBase + healingSpeedMod; }
+
     [Header("Speed")]
     public float baseSpeed;
     public float maxSpeed;
@@ -74,10 +79,14 @@ public class PlayerAbilityDataSO : ScriptableObject
         launchSpeedMod = 0;
         launchDamageMod = 0;
         damageMod = 0;
+
         healthMod = 0;
+        healingSpeedMod = 0;
+
         manaMod = 0;
 
         currency = 0;
+
     }
 
     public void DashAbility() 

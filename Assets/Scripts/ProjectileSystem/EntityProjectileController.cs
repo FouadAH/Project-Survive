@@ -43,6 +43,7 @@ public class EntityProjectileController : MonoBehaviour
 
         for (int i = 0; i < projectileBurstCount; i++)
         {
+            Debug.Log("LaunchProjectile");
             var projectile = ObjectPool.instance.Get(projectilePrefab) as ProjectileBase;
 
             projectile.transform.position = transform.position;

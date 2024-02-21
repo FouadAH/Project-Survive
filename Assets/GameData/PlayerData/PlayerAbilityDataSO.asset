@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f605f4924f434c4a8e631cf89f768bc, type: 3}
   m_Name: PlayerAbilityDataSO
   m_EditorClassIdentifier: 
-  baseHealth: 250
-  healthMod: 30
+  baseHealth: 150
+  healthMod: 0
   baseMana: 60
   manaMod: 0
   baseHealing: 30
@@ -22,17 +22,19 @@ MonoBehaviour:
   healingManaCostBase: 20
   minHealingCost: 5
   healingManaCostMod: 0
+  healingSpeedBase: 8
+  healingSpeedMod: 0
   baseSpeed: 25
   maxSpeed: 40
-  speedMod: 6
+  speedMod: 0
   dashSpeedMod: 0
   launchSpeedBase: 140
   launchSpeedMod: 0
   launchDamageBase: 35
-  launchDamageMod: 16
-  hasDash: 1
-  hasHover: 0
-  hasTelekenises: 1
-  damageMod: 30
+  launchDamageMod: 0
+  hasDash: 0
+  hasHover: 1
+  hasTelekenises: 0
+  damageMod: 0
   weakSpotdamageMod: 1.5
-  currency: 8595
+  currency: 52

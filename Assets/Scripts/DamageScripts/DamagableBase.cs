@@ -7,9 +7,10 @@ using UnityEngine.SceneManagement;
 public class DamagableBase : MonoBehaviour
 {
     public float health;
-    [Header("Damage Events")]
+    [Header("Events")]
     public UnityEvent<Vector3, float, DamageType> OnDeathEvent;
     public UnityEvent<float, Vector3,float, DamageType> OnTakeDamage;
+    public UnityEvent OnHeal;
 
     public virtual void TakeDamage(float damageValue, Vector3 normal, float force = 1, DamageType damageType = DamageType.Range) 
     {
@@ -25,6 +26,7 @@ public class DamagableBase : MonoBehaviour
     public virtual void Heal(float healValue)
     {
         health += healValue;
+        OnHeal?.Invoke();
     }
 
     public virtual void OnDeath(Vector3 normal, float force, DamageType damageType)

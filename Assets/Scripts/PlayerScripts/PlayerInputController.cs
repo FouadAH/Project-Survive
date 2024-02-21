@@ -52,8 +52,11 @@ public class PlayerInputController : MonoBehaviour
         {
             case InputActionPhase.Started:
 
-                inputProvider.OnHeal();
+                inputProvider.OnHeal_Start();
+                break;
 
+            case InputActionPhase.Canceled:
+                inputProvider.OnHeal_Stop();
                 break;
         }
     }
@@ -65,7 +68,6 @@ public class PlayerInputController : MonoBehaviour
             case InputActionPhase.Started:
 
                 inputProvider.OnKick();
-
                 break;
         }
     }
