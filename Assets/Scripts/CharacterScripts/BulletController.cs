@@ -42,7 +42,7 @@ public class BulletController : PooledObject
         initialSpawn = transform.position;
         rb.position = initialSpawn;
 
-        shouldMove = false;
+        shouldMove = true;
         StartCoroutine(MovementLock());
     }
 
@@ -50,13 +50,14 @@ public class BulletController : PooledObject
     {
         shouldMove = false;
         trailRenderer.enabled = false;
+        meshRenderer.enabled = false;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (moveInDirection)
         {
-            rb.MovePosition(transform.position + transform.forward * speed * Time.deltaTime);
+            rb.MovePosition(transform.position + speed * Time.deltaTime * transform.forward);
             return;
         }
 
@@ -82,7 +83,7 @@ public class BulletController : PooledObject
         yield return new WaitForEndOfFrame();
 
         meshRenderer.enabled = true;
-        shouldMove = true;
+        //shouldMove = true;
         trailRenderer.enabled = true;
     }
 

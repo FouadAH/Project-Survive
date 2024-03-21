@@ -31,6 +31,6 @@ MonoBehaviour:
   isConeCast: 0
   fireRate: 0.35
   isAvailable: 0
-  isTripleShot: 1
+  isTripleShot: 0
   isPentaShot: 0
   color: {r: 0.6510811, g: 1, b: 0.49685526, a: 1}

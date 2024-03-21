@@ -5,6 +5,7 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.Events;
+using TMPro;
 
 public class GunController : MonoBehaviour
 {
@@ -99,6 +100,36 @@ public class GunController : MonoBehaviour
     }
     void SpawnBullet(Vector3 targetPosition, Quaternion rotation)
     {
+        StartCoroutine(SpawnRoutine(targetPosition, rotation));
+        //Vector3 forwardVector = rotation * Camera.main.transform.forward;
+
+        //var bullet = ObjectPool.instance.Get(gunItem.gunDataSO.bulletPrefab).GetComponent<BulletController>();
+
+        //bullet.SetDamage(damageSource.damageValue);
+        //bullet.OnDamage = () =>
+        //{
+        //    crosshairController.AnimateCrosshair_HitWeakSpot();
+        //};
+
+        //bullet.transform.position = gunItem.bulletSpawnTransform.position + characterController.velocity * velocityMod;
+        //bullet.transform.rotation = rotation;
+
+        //bullet.moveInDirection = true;
+
+        //bullet.transform.forward = forwardVector;
+        //bullet.targetPos = targetPosition;
+        //bullet.spawnTransform = gunItem.bulletSpawnTransform;
+    }
+
+    IEnumerator SpawnRoutine(Vector3 targetPosition, Quaternion rotation)
+    {
+        Vector3 spawnBefore = gunItem.bulletSpawnTransform.position;
+        yield return new WaitForFixedUpdate();
+
+        Vector3 spawnAfter = gunItem.bulletSpawnTransform.position;
+        Vector3 direction = spawnAfter - spawnBefore;
+        //yield return new WaitForFixedUpdate();
+
         Vector3 forwardVector = rotation * Camera.main.transform.forward;
 
         var bullet = ObjectPool.instance.Get(gunItem.gunDataSO.bulletPrefab).GetComponent<BulletController>();
